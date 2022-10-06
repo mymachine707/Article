@@ -10,21 +10,22 @@ import (
 
 // Person ...
 type Person struct {
-	Firstname, Lastname string // Compact by combining the various fields of the same type
+	Firstname string `json:"firstname" ` // binding:"required"
+	Lastname  string `json:"firstname" ` // binding:"required"
 }
 
 // Content ...
 type Content struct {
-	Title string
-	Body  string
+	Title string `json:"title" ` // binding:"required"
+	Body  string `json:"body" `  // binding:"required"
 }
 
 // Article ...
 type Article struct {
-	ID        int
-	Content          // Promoted fields
-	Author    Person // Nested structs
-	CreatedAt *time.Time
+	ID        int        `json:"id"`
+	Content              // Promoted fields
+	Author    Person     `json:"a" ` // binding:"required"
+	CreatedAt *time.Time `json:"created_at"`
 }
 
 func main() {
@@ -37,9 +38,23 @@ func main() {
 		})
 	})
 
+	var InMemoryArticleData []Article
+
 	// Create
 	r.POST("/article", func(c *gin.Context) {
+
+		var article Article
+		if err := c.ShouldBindJSON(&article); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		t := time.Now()
+		article.CreatedAt = &t
+		InMemoryArticleData = append(InMemoryArticleData, article)
+
 		c.JSON(http.StatusOK, gin.H{
+			"data":    InMemoryArticleData,
 			"message": "Article Create ",
 		})
 	})
