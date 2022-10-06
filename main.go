@@ -1,21 +1,25 @@
 package main
 
 import (
-  "net/http"
-  "fmt"
-  "github.com/gin-gonic/gin"
-  "time"
+	"fmt"
+	"net/http"
+	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
+// Person ...
 type Person struct {
 	Firstname, Lastname string // Compact by combining the various fields of the same type
 }
 
+// Content ...
 type Content struct {
 	Title string
 	Body  string
 }
 
+// Article ...
 type Article struct {
 	ID        int
 	Content          // Promoted fields
@@ -23,61 +27,58 @@ type Article struct {
 	CreatedAt *time.Time
 }
 
-
 func main() {
 
-  r := gin.Default()
+	r := gin.Default()
 
-  r.GET("/ping", func(c *gin.Context) {
-    c.JSON(http.StatusOK, gin.H{
-      "message": "pong",
-    })
-  })
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
+	})
 
-  // Create
-  r.POST("/article", func(c *gin.Context){
-    c.JSON(http.StatusOK, gin.H{
-      "message": "Article Create ",
-    })
-  })
+	// Create
+	r.POST("/article", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Article Create ",
+		})
+	})
 
-  // GetArticleById
-  r.GET("/article/:id", func(c *gin.Context){
-    idStr:=c.Param("id")
-    
-    fmt.Println(idStr)
+	// GetArticleById
+	r.GET("/article/:id", func(c *gin.Context) {
+		idStr := c.Param("id")
 
-    c.JSON(http.StatusOK, gin.H{
-      "message": "GetArticleById",
-    })
-  })
+		fmt.Println(idStr)
 
-  // GetList
-  r.GET("/article", func(c *gin.Context){
-    c.JSON(http.StatusOK, gin.H{
-      "message": "Article GetList",
-    })
-  })
+		c.JSON(http.StatusOK, gin.H{
+			"message": "GetArticleById",
+		})
+	})
 
-  // Update
-  r.PUT("/article", func(c *gin.Context){
-    c.JSON(http.StatusOK, gin.H{
-      "message": "Article Update",
-    })
-  })
+	// GetList
+	r.GET("/article", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Article GetList",
+		})
+	})
 
-  // Delete
-  r.DELETE("/article/:id", func(c *gin.Context){
-    idStr:=c.Param("id")
-    
-    fmt.Println(idStr)
+	// Update
+	r.PUT("/article", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Article Update",
+		})
+	})
 
-    c.JSON(http.StatusOK, gin.H{
-      "message": "GetArticleById",
-    })
-  })
+	// Delete
+	r.DELETE("/article/:id", func(c *gin.Context) {
+		idStr := c.Param("id")
 
+		fmt.Println(idStr)
 
+		c.JSON(http.StatusOK, gin.H{
+			"message": "GetArticleById",
+		})
+	})
 
-  r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
