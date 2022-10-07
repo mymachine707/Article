@@ -102,6 +102,7 @@ func main() {
 
 		for i, v := range InMemoryArticleData {
 			if v.ID == article.ID {
+				article.CreatedAt = v.CreatedAt
 				t := time.Now()
 				article.UpdatedAt = &t
 				InMemoryArticleData[i] = article
