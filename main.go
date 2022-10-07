@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -126,12 +125,26 @@ func main() {
 	r.DELETE("/article/:id", func(c *gin.Context) {
 		idStr := c.Param("id")
 
-		fmt.Println(idStr)
+		for i, v := range InMemoryArticleData {
+			if v.ID == idStr {
+				c.JSON(http.StatusNotFound, gin.H{
+					"message": "GetArticleById || NOT FOUND",
+					"data":    v,
+				})
+				InMemoryArticleData = remove(InMemoryArticleData, i)
+				return
+			}
+		}
 
 		c.JSON(http.StatusOK, gin.H{
-			"message": "GetArticleById",
+			"message": "Article || Delete || NOT FOUND",
+			"data":    nil,
 		})
 	})
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+}
+
+func remove(slice []Article, s int) []Article {
+	return append(slice[:s], slice[s+1:]...)
 }
