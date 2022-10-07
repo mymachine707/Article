@@ -52,7 +52,6 @@ func main() {
 		}
 
 		id := uuid.New()
-
 		article.ID = id.String()
 
 		article.CreatedAt = time.Now()
