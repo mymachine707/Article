@@ -1,3 +1,33 @@
+definitions:
+  main.Article:
+    properties:
+      author:
+        $ref: '#/definitions/main.Person'
+      body:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - author
+    - body
+    - title
+    type: object
+  main.Person:
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string
+    required:
+    - firstname
+    - lastname
+    type: object
 info:
   contact:
     email: support@swagger.io
@@ -6,5 +36,20 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-paths: {}
+paths:
+  /v2/article/{id}:
+    get:
+      consumes:
+      - application/json
+      description: GetArticleList
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Article'
+      summary: List articles
+      tags:
+      - articless
 swagger: "2.0"

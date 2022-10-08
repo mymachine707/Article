@@ -57,7 +57,14 @@ func GetArticleByID(c *gin.Context) {
 
 }
 
-// GetArticleList ...
+// GetArticleList godoc
+// @Summary      List articles
+// @Description  GetArticleList
+// @Tags         articless
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  JSONResult{data=[]Article}
+// @Router       /v2/article/{id} [get]
 func GetArticleList(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Article GetList",

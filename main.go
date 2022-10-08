@@ -14,13 +14,15 @@ import (
 // @contact.name   API Support
 // @contact.url    http://www.swagger.io/support
 // @contact.email  support@swagger.io
+
 // @license.name  Apache 2.0
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
 func main() {
 	docs.SwaggerInfo.Title = "Swagger Example API"
 	docs.SwaggerInfo.Description = "This is a sample server Petstore server."
-	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Version = "2.0"
+
 	InMemoryArticleData = make([]Article, 0)
 	r := gin.Default()
 
@@ -31,7 +33,7 @@ func main() {
 	})
 
 	// Gruppirovka qilindi
-	v1 := r.Group("v1")
+	v1 := r.Group("v2")
 	{
 		v1.POST("/article", CreatArticle)
 		v1.GET("/article/:id", GetArticleByID)
