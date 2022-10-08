@@ -18,6 +18,19 @@ definitions:
     - body
     - title
     type: object
+  main.CreateArticleModul:
+    properties:
+      author:
+        $ref: '#/definitions/main.Person'
+      body:
+        type: string
+      title:
+        type: string
+    required:
+    - author
+    - body
+    - title
+    type: object
   main.JSONErrorResponse:
     properties:
       error:
@@ -32,8 +45,14 @@ definitions:
   main.Person:
     properties:
       firstname:
+        example: John
+        maxLength: 50
+        minLength: 4
         type: string
       lastname:
+        example: Doe
+        maxLength: 50
+        minLength: 4
         type: string
     required:
     - firstname
@@ -59,7 +78,7 @@ paths:
         name: article
         required: true
         schema:
-          $ref: '#/definitions/main.Article'
+          $ref: '#/definitions/main.CreateArticleModul'
       produces:
       - application/json
       responses:
@@ -106,7 +125,7 @@ paths:
         name: article
         required: true
         schema:
-          $ref: '#/definitions/main.Article'
+          $ref: '#/definitions/main.CreateArticleModul'
       produces:
       - application/json
       responses:
@@ -155,7 +174,7 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/main.JSONErrorResponse'
-      summary: my work!!! -- Delete Article
+      summary: My work!!! -- Delete Article
       tags:
       - article
     get:

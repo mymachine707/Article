@@ -44,7 +44,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/main.Article"
+                            "$ref": "#/definitions/main.CreateArticleModul"
                         }
                     }
                 ],
@@ -120,7 +120,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/main.Article"
+                            "$ref": "#/definitions/main.CreateArticleModul"
                         }
                     }
                 ],
@@ -215,7 +215,7 @@ const docTemplate = `{
                 "tags": [
                     "article"
                 ],
-                "summary": "my work!!! -- Delete Article",
+                "summary": "My work!!! -- Delete Article",
                 "parameters": [
                     {
                         "type": "string",
@@ -283,6 +283,25 @@ const docTemplate = `{
                 }
             }
         },
+        "main.CreateArticleModul": {
+            "type": "object",
+            "required": [
+                "author",
+                "body",
+                "title"
+            ],
+            "properties": {
+                "author": {
+                    "$ref": "#/definitions/main.Person"
+                },
+                "body": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
         "main.JSONErrorResponse": {
             "type": "object",
             "properties": {
@@ -308,10 +327,16 @@ const docTemplate = `{
             ],
             "properties": {
                 "firstname": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 4,
+                    "example": "John"
                 },
                 "lastname": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 4,
+                    "example": "Doe"
                 }
             }
         }

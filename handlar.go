@@ -21,7 +21,7 @@ var InMemoryArticleData []Article
 // @Tags        article
 // @Accept      json
 // @Produce     json
-// @Param       article body     Article true "Article body"
+// @Param       article body     CreateArticleModul true "Article body"
 // @Success     201     {object} Article
 // @Failure     400     {object} JSONErrorResponse
 // @Router      /v2/article [post]
@@ -32,6 +32,8 @@ func CreatArticle(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	// validation should be here
 
 	id := uuid.New()
 	article.ID = id.String()
@@ -95,7 +97,7 @@ func GetArticleList(c *gin.Context) {
 // @Tags        article
 // @Accept      json
 // @Produce     json
-// @Param       article body     Article true "Article body"
+// @Param       article body     CreateArticleModul true "Article body"
 // @Success     201     {object} JSONResult{data=[]Article}
 // @Failure     400     {object} JSONErrorResponse
 // @Router      /v2/article/ [put]

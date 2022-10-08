@@ -4,8 +4,8 @@ import "time"
 
 // Person ...
 type Person struct {
-	Firstname string `json:"firstname" binding:"required" `
-	Lastname  string `json:"lastname" binding:"required"`
+	Firstname string `json:"firstname" binding:"required" minLength:"4" maxLength:"50" example:"John"`
+	Lastname  string `json:"lastname" binding:"required" minLength:"4" maxLength:"50" example:"Doe"`
 }
 
 // Content ...
@@ -23,6 +23,12 @@ type Article struct {
 	UpdatedAt *time.Time `json:"updated_at"`
 }
 
+// CreateArticleModul ...
+type CreateArticleModul struct {
+	Content        // Promoted fields
+	Author  Person `json:"author" binding:"required" `
+}
+
 // JSONResult ..
 type JSONResult struct {
 	Message string      `json:"message"`
@@ -31,5 +37,5 @@ type JSONResult struct {
 
 // JSONErrorResponse ..
 type JSONErrorResponse struct {
-	Error string `json:"error`
+	Error string `json:"error"`
 }
