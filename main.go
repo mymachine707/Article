@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -25,8 +26,18 @@ func main() {
 	docs.SwaggerInfo.Version = "2.0"
 
 	handlars.InMemoryArticleData = append(handlars.InMemoryArticleData, models.Article{
-		ID: "1",
+		ID: "1b166874-d9cb-4e34-a13b-fdb5716c92c4",
+		Content: models.Content{
+			Title: "Lorem",
+			Body:  "new life in coding",
+		},
+		Author: models.Person{
+			Firstname: "Islombek",
+			Lastname:  "Oripov",
+		},
+		CreatedAt: time.Now(),
 	})
+
 	r := gin.Default()
 
 	r.GET("/ping", func(c *gin.Context) {

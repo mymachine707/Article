@@ -30,7 +30,7 @@ func CreatArticle(c *gin.Context) {
 
 	var article models.Article
 	if err := c.ShouldBindJSON(&article); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{Error: err.Error()})
 		return
 	}
 
@@ -38,11 +38,11 @@ func CreatArticle(c *gin.Context) {
 
 	id := uuid.New()
 	article.ID = id.String()
-
 	article.CreatedAt = time.Now()
+
 	InMemoryArticleData = append(InMemoryArticleData, article)
 
-	c.JSON(http.StatusOK, models.JSONResult{
+	c.JSON(http.StatusCreated, models.JSONResult{
 		Data:    InMemoryArticleData,
 		Message: "CreatArticle",
 	})
@@ -105,7 +105,7 @@ func GetArticleList(c *gin.Context) {
 func ArticleUpdate(c *gin.Context) {
 	var article models.Article
 	if err := c.ShouldBindJSON(&article); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{Error: err.Error()})
 		return
 	}
 
