@@ -18,6 +18,17 @@ definitions:
     - body
     - title
     type: object
+  main.JSONErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  main.JSONResult:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
   main.Person:
     properties:
       firstname:
@@ -37,7 +48,33 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 paths:
-  /v2/article/{id}:
+  /v2/article:
+    post:
+      consumes:
+      - application/json
+      description: Creat a new article
+      parameters:
+      - description: Article body
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/main.Article'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/main.Article'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.JSONErrorResponse'
+      summary: Creat Article
+      tags:
+      - article
+  /v2/article/:
     get:
       consumes:
       - application/json
@@ -48,8 +85,45 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/main.Article'
+            allOf:
+            - $ref: '#/definitions/main.JSONResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/main.Article'
+                  type: array
+              type: object
       summary: List articles
       tags:
-      - articless
+      - article
+  /v2/article/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get an article by id
+      parameters:
+      - description: Article id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.JSONResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/main.Article'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.JSONErrorResponse'
+      summary: GetArticleByID
+      tags:
+      - article
 swagger: "2.0"

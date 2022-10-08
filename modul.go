@@ -25,7 +25,11 @@ type Article struct {
 
 // JSONResult ..
 type JSONResult struct {
-	Code    int         `json:"code" `
 	Message string      `json:"message"`
 	Data    interface{} `json:"data"`
+}
+
+// JSONErrorResponse ..
+type JSONErrorResponse struct {
+	Error string `json:"error`
 }

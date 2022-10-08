@@ -15,7 +15,16 @@ func remove(slice []Article, s int) []Article {
 // InMemoryArticleData - data base article
 var InMemoryArticleData []Article
 
-//CreatArticle ...
+// CreatArticle godoc
+// @Summary     Creat Article
+// @Description Creat a new article
+// @Tags        article
+// @Accept      json
+// @Produce     json
+// @Param       article body     Article true "Article body"
+// @Success     201     {object} Article
+// @Failure     400     {object} JSONErrorResponse
+// @Router      /v2/article [post]
 func CreatArticle(c *gin.Context) {
 
 	var article Article
@@ -30,45 +39,53 @@ func CreatArticle(c *gin.Context) {
 	article.CreatedAt = time.Now()
 	InMemoryArticleData = append(InMemoryArticleData, article)
 
-	c.JSON(http.StatusOK, gin.H{
-		"data":    InMemoryArticleData,
-		"message": "Article Create ",
+	c.JSON(http.StatusOK, JSONResult{
+		Data:    InMemoryArticleData,
+		Message: "CreatArticle",
 	})
 }
 
-// GetArticleByID ...
+// GetArticleByID godoc
+// @Summary     GetArticleByID
+// @Description get an article by id
+// @Tags        article
+// @Accept      json
+// @Produce     json
+// @Param       id  path     string true "Article id"
+// @Success     201 {object} JSONResult{data=Article}
+// @Failure     400 {object} JSONErrorResponse
+// @Router      /v2/article/{id} [get]
 func GetArticleByID(c *gin.Context) {
 	idStr := c.Param("id")
 
 	for _, v := range InMemoryArticleData {
 		if v.ID == idStr {
-			c.JSON(http.StatusOK, gin.H{
-				"message": "GetArticleById",
-				"data":    v,
+			c.JSON(http.StatusOK, JSONResult{
+				Data:    v,
+				Message: "GetArticleByID",
 			})
 			return
 		}
 	}
 
-	c.JSON(http.StatusNotFound, gin.H{
-		"message": "GetArticleById || NOT FOUND",
-		"data":    nil,
+	c.JSON(http.StatusNotFound, JSONErrorResponse{
+		Error: "GetArticleById || NOT FOUND",
 	})
 
 }
 
 // GetArticleList godoc
-// @Summary      List articles
-// @Description  GetArticleList
-// @Tags         articless
-// @Accept       json
-// @Produce      json
-// @Success      200  {object}  JSONResult{data=[]Article}
-// @Router       /v2/article/{id} [get]
+// @Summary     List articles
+// @Description GetArticleList
+// @Tags        article
+// @Accept      json
+// @Produce     json
+// @Success     200 {object} JSONResult{data=[]Article}
+// @Router      /v2/article/ [get]
 func GetArticleList(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Article GetList",
-		"data":    InMemoryArticleData,
+	c.JSON(http.StatusOK, JSONResult{
+		Data:    InMemoryArticleData,
+		Message: "Article GetList",
 	})
 }
 
