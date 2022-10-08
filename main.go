@@ -46,65 +46,16 @@ func main() {
 	r.POST("/article", CreatArticle)
 
 	// GetArticleById
-	r.GET("/article/:id", )
+	r.GET("/article/:id", GetArticleByID)
 
 	// GetList
-	r.GET("/article", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Article GetList",
-			"data":    InMemoryArticleData,
-		})
-	})
+	r.GET("/article", GetArticleList)
 
 	// Update
-	r.PUT("/article", func(c *gin.Context) {
-		var article Article
-		if err := c.ShouldBindJSON(&article); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-
-		for i, v := range InMemoryArticleData {
-			if v.ID == article.ID {
-				article.CreatedAt = v.CreatedAt
-				t := time.Now()
-				article.UpdatedAt = &t
-				InMemoryArticleData[i] = article
-				c.JSON(http.StatusNotFound, gin.H{
-					"message": "GetArticleById || NOT FOUND",
-					"data":    InMemoryArticleData,
-				})
-				return
-			}
-		}
-
-		c.JSON(http.StatusNotFound, gin.H{
-			"message": "Update || NOT FOUND",
-			"data":    nil,
-		})
-
-	})
+	r.PUT("/article", ArticleUpdate)
 
 	// Delete
-	r.DELETE("/article/:id", func(c *gin.Context) {
-		idStr := c.Param("id")
-
-		for i, v := range InMemoryArticleData {
-			if v.ID == idStr {
-				c.JSON(http.StatusNotFound, gin.H{
-					"message": "GetArticleById || NOT FOUND",
-					"data":    v,
-				})
-				InMemoryArticleData = remove(InMemoryArticleData, i)
-				return
-			}
-		}
-
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Article || Delete || NOT FOUND",
-			"data":    nil,
-		})
-	})
+	r.DELETE("/article/:id", DeleteArticle)
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
@@ -113,6 +64,7 @@ func remove(slice []Article, s int) []Article {
 	return append(slice[:s], slice[s+1:]...)
 }
 
+//CreatArticle ...
 func CreatArticle(c *gin.Context) {
 
 	var article Article
@@ -133,8 +85,8 @@ func CreatArticle(c *gin.Context) {
 	})
 }
 
-
-func(c *gin.Context) {
+// GetArticleByID ...
+func GetArticleByID(c *gin.Context) {
 	idStr := c.Param("id")
 
 	for _, v := range InMemoryArticleData {
@@ -152,4 +104,62 @@ func(c *gin.Context) {
 		"data":    nil,
 	})
 
+}
+
+// GetArticleList ...
+func GetArticleList(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Article GetList",
+		"data":    InMemoryArticleData,
+	})
+}
+
+// ArticleUpdate ...
+func ArticleUpdate(c *gin.Context) {
+	var article Article
+	if err := c.ShouldBindJSON(&article); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	for i, v := range InMemoryArticleData {
+		if v.ID == article.ID {
+			article.CreatedAt = v.CreatedAt
+			t := time.Now()
+			article.UpdatedAt = &t
+			InMemoryArticleData[i] = article
+			c.JSON(http.StatusOK, gin.H{
+				"message": "Article Update",
+				"data":    InMemoryArticleData,
+			})
+			return
+		}
+	}
+
+	c.JSON(http.StatusNotFound, gin.H{
+		"message": "Update || NOT FOUND",
+		"data":    nil,
+	})
+
+}
+
+// DeleteArticle ...
+func DeleteArticle(c *gin.Context) {
+	idStr := c.Param("id")
+
+	for i, v := range InMemoryArticleData {
+		if v.ID == idStr {
+			c.JSON(http.StatusOK, gin.H{
+				"message": "Article Deleted",
+				"data":    v,
+			})
+			InMemoryArticleData = remove(InMemoryArticleData, i)
+			return
+		}
+	}
+
+	c.JSON(http.StatusNotFound, gin.H{
+		"message": "Article || Delete || NOT FOUND",
+		"data":    nil,
+	})
 }
