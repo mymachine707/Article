@@ -1,6 +1,7 @@
-package main
+package handlars
 
 import (
+	"mymachine707/models"
 	"net/http"
 	"time"
 
@@ -8,12 +9,12 @@ import (
 	"github.com/google/uuid"
 )
 
-func remove(slice []Article, s int) []Article {
+func remove(slice []models.Article, s int) []models.Article {
 	return append(slice[:s], slice[s+1:]...)
 }
 
 // InMemoryArticleData - data base article
-var InMemoryArticleData []Article
+var InMemoryArticleData []models.Article
 
 // CreatArticle godoc
 // @Summary     Creat Article
@@ -21,13 +22,13 @@ var InMemoryArticleData []Article
 // @Tags        article
 // @Accept      json
 // @Produce     json
-// @Param       article body     CreateArticleModul true "Article body"
-// @Success     201     {object} Article
-// @Failure     400     {object} JSONErrorResponse
+// @Param       article body     models.CreateArticleModul true "Article body"
+// @Success     201     {object} models.Article
+// @Failure     400     {object} models.JSONErrorResponse
 // @Router      /v2/article [post]
 func CreatArticle(c *gin.Context) {
 
-	var article Article
+	var article models.Article
 	if err := c.ShouldBindJSON(&article); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -41,7 +42,7 @@ func CreatArticle(c *gin.Context) {
 	article.CreatedAt = time.Now()
 	InMemoryArticleData = append(InMemoryArticleData, article)
 
-	c.JSON(http.StatusOK, JSONResult{
+	c.JSON(http.StatusOK, models.JSONResult{
 		Data:    InMemoryArticleData,
 		Message: "CreatArticle",
 	})
@@ -54,15 +55,15 @@ func CreatArticle(c *gin.Context) {
 // @Accept      json
 // @Produce     json
 // @Param       id  path     string true "Article id"
-// @Success     201 {object} JSONResult{data=Article}
-// @Failure     400 {object} JSONErrorResponse
+// @Success     201 {object} models.JSONResult{data=models.Article}
+// @Failure     400 {object} models.JSONErrorResponse
 // @Router      /v2/article/{id} [get]
 func GetArticleByID(c *gin.Context) {
 	idStr := c.Param("id")
 
 	for _, v := range InMemoryArticleData {
 		if v.ID == idStr {
-			c.JSON(http.StatusOK, JSONResult{
+			c.JSON(http.StatusOK, models.JSONResult{
 				Data:    v,
 				Message: "GetArticleByID",
 			})
@@ -70,7 +71,7 @@ func GetArticleByID(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusNotFound, JSONErrorResponse{
+	c.JSON(http.StatusNotFound, models.JSONErrorResponse{
 		Error: "GetArticleById || NOT FOUND",
 	})
 
@@ -82,10 +83,10 @@ func GetArticleByID(c *gin.Context) {
 // @Tags        article
 // @Accept      json
 // @Produce     json
-// @Success     200 {object} JSONResult{data=[]Article}
+// @Success     200 {object} models.JSONResult{data=[]models.Article}
 // @Router      /v2/article/ [get]
 func GetArticleList(c *gin.Context) {
-	c.JSON(http.StatusOK, JSONResult{
+	c.JSON(http.StatusOK, models.JSONResult{
 		Data:    InMemoryArticleData,
 		Message: "Article GetList",
 	})
@@ -97,12 +98,12 @@ func GetArticleList(c *gin.Context) {
 // @Tags        article
 // @Accept      json
 // @Produce     json
-// @Param       article body     CreateArticleModul true "Article body"
-// @Success     201     {object} JSONResult{data=[]Article}
-// @Failure     400     {object} JSONErrorResponse
+// @Param       article body     models.CreateArticleModul true "Article body"
+// @Success     201     {object} models.JSONResult{data=[]models.Article}
+// @Failure     400     {object} models.JSONErrorResponse
 // @Router      /v2/article/ [put]
 func ArticleUpdate(c *gin.Context) {
-	var article Article
+	var article models.Article
 	if err := c.ShouldBindJSON(&article); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -122,9 +123,8 @@ func ArticleUpdate(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusNotFound, gin.H{
-		"message": "Update || NOT FOUND",
-		"data":    nil,
+	c.JSON(http.StatusNotFound, models.JSONErrorResponse{
+		Error: "Update || NOT FOUND",
 	})
 
 }
@@ -136,8 +136,8 @@ func ArticleUpdate(c *gin.Context) {
 // @Accept      json
 // @Produce     json
 // @Param       id  path     string true "Article id"
-// @Success     201 {object} JSONResult{data=Article}
-// @Failure     400 {object} JSONErrorResponse
+// @Success     201 {object} models.JSONResult{data=models.Article}
+// @Failure     400 {object} models.JSONErrorResponse
 // @Router      /v2/article/{id} [delete]
 func DeleteArticle(c *gin.Context) {
 	idStr := c.Param("id")
@@ -153,8 +153,7 @@ func DeleteArticle(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusNotFound, gin.H{
-		"message": "Article || Delete || NOT FOUND",
-		"data":    nil,
+	c.JSON(http.StatusNotFound, models.JSONErrorResponse{
+		Error: "Delete element || NOT FOUND",
 	})
 }

@@ -44,7 +44,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/main.CreateArticleModul"
+                            "$ref": "#/definitions/models.CreateArticleModul"
                         }
                     }
                 ],
@@ -52,13 +52,13 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/main.Article"
+                            "$ref": "#/definitions/models.Article"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/main.JSONErrorResponse"
+                            "$ref": "#/definitions/models.JSONErrorResponse"
                         }
                     }
                 }
@@ -83,7 +83,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/main.JSONResult"
+                                    "$ref": "#/definitions/models.JSONResult"
                                 },
                                 {
                                     "type": "object",
@@ -91,7 +91,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/main.Article"
+                                                "$ref": "#/definitions/models.Article"
                                             }
                                         }
                                     }
@@ -120,7 +120,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/main.CreateArticleModul"
+                            "$ref": "#/definitions/models.CreateArticleModul"
                         }
                     }
                 ],
@@ -130,7 +130,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/main.JSONResult"
+                                    "$ref": "#/definitions/models.JSONResult"
                                 },
                                 {
                                     "type": "object",
@@ -138,7 +138,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/main.Article"
+                                                "$ref": "#/definitions/models.Article"
                                             }
                                         }
                                     }
@@ -149,7 +149,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/main.JSONErrorResponse"
+                            "$ref": "#/definitions/models.JSONErrorResponse"
                         }
                     }
                 }
@@ -183,13 +183,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/main.JSONResult"
+                                    "$ref": "#/definitions/models.JSONResult"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/main.Article"
+                                            "$ref": "#/definitions/models.Article"
                                         }
                                     }
                                 }
@@ -199,7 +199,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/main.JSONErrorResponse"
+                            "$ref": "#/definitions/models.JSONErrorResponse"
                         }
                     }
                 }
@@ -231,13 +231,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/main.JSONResult"
+                                    "$ref": "#/definitions/models.JSONResult"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/main.Article"
+                                            "$ref": "#/definitions/models.Article"
                                         }
                                     }
                                 }
@@ -247,7 +247,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/main.JSONErrorResponse"
+                            "$ref": "#/definitions/models.JSONErrorResponse"
                         }
                     }
                 }
@@ -255,7 +255,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "main.Article": {
+        "models.Article": {
             "type": "object",
             "required": [
                 "author",
@@ -264,7 +264,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "author": {
-                    "$ref": "#/definitions/main.Person"
+                    "$ref": "#/definitions/models.Person"
                 },
                 "body": {
                     "type": "string"
@@ -283,7 +283,7 @@ const docTemplate = `{
                 }
             }
         },
-        "main.CreateArticleModul": {
+        "models.CreateArticleModul": {
             "type": "object",
             "required": [
                 "author",
@@ -292,7 +292,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "author": {
-                    "$ref": "#/definitions/main.Person"
+                    "$ref": "#/definitions/models.Person"
                 },
                 "body": {
                     "type": "string"
@@ -302,7 +302,7 @@ const docTemplate = `{
                 }
             }
         },
-        "main.JSONErrorResponse": {
+        "models.JSONErrorResponse": {
             "type": "object",
             "properties": {
                 "error": {
@@ -310,7 +310,7 @@ const docTemplate = `{
                 }
             }
         },
-        "main.JSONResult": {
+        "models.JSONResult": {
             "type": "object",
             "properties": {
                 "data": {},
@@ -319,7 +319,7 @@ const docTemplate = `{
                 }
             }
         },
-        "main.Person": {
+        "models.Person": {
             "type": "object",
             "required": [
                 "firstname",
