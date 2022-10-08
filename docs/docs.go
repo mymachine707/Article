@@ -100,6 +100,59 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "put": {
+                "description": "Update Article",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "My work !!! -- Update Article",
+                "parameters": [
+                    {
+                        "description": "Article body",
+                        "name": "article",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.Article"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/main.JSONResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/main.Article"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.JSONErrorResponse"
+                        }
+                    }
+                }
             }
         },
         "/v2/article/{id}": {
@@ -115,6 +168,54 @@ const docTemplate = `{
                     "article"
                 ],
                 "summary": "GetArticleByID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Article id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/main.JSONResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/main.Article"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.JSONErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "get element by id and delete this article",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "my work!!! -- Delete Article",
                 "parameters": [
                     {
                         "type": "string",

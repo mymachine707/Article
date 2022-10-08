@@ -96,7 +96,68 @@ paths:
       summary: List articles
       tags:
       - article
+    put:
+      consumes:
+      - application/json
+      description: Update Article
+      parameters:
+      - description: Article body
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/main.Article'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.JSONResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/main.Article'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.JSONErrorResponse'
+      summary: My work !!! -- Update Article
+      tags:
+      - article
   /v2/article/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: get element by id and delete this article
+      parameters:
+      - description: Article id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/main.JSONResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/main.Article'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.JSONErrorResponse'
+      summary: my work!!! -- Delete Article
+      tags:
+      - article
     get:
       consumes:
       - application/json

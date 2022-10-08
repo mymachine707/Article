@@ -89,7 +89,16 @@ func GetArticleList(c *gin.Context) {
 	})
 }
 
-// ArticleUpdate ...
+// ArticleUpdate godoc
+// @Summary     My work !!! -- Update Article
+// @Description Update Article
+// @Tags        article
+// @Accept      json
+// @Produce     json
+// @Param       article body     Article true "Article body"
+// @Success     201     {object} JSONResult{data=[]Article}
+// @Failure     400     {object} JSONErrorResponse
+// @Router      /v2/article/ [put]
 func ArticleUpdate(c *gin.Context) {
 	var article Article
 	if err := c.ShouldBindJSON(&article); err != nil {
@@ -118,7 +127,16 @@ func ArticleUpdate(c *gin.Context) {
 
 }
 
-// DeleteArticle ...
+// DeleteArticle godoc
+// @Summary     My work!!! -- Delete Article
+// @Description get element by id and delete this article
+// @Tags        article
+// @Accept      json
+// @Produce     json
+// @Param       id  path     string true "Article id"
+// @Success     201 {object} JSONResult{data=Article}
+// @Failure     400 {object} JSONErrorResponse
+// @Router      /v2/article/{id} [delete]
 func DeleteArticle(c *gin.Context) {
 	idStr := c.Param("id")
 
