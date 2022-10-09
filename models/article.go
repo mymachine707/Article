@@ -5,7 +5,7 @@ import "time"
 // Person ...
 type Person struct {
 	Firstname string `json:"firstname" binding:"required" minLength:"4" maxLength:"50" example:"John"`
-	Lastname  string `json:"lastname" binding:"required" minLength:"4" maxLength:"50" example:"Doe"`
+	Lastname  string `json:"lastname" binding:"required" minLength:"4" maxLength:"50" example:"Does"`
 }
 
 // Content ...
@@ -18,7 +18,7 @@ type Content struct {
 type Article struct {
 	ID        string     `json:"id"`
 	Content              // Promoted fields
-	Author    Person     `json:"author" binding:"required" `
+	Author    Person     `json:"author" binding:"required"`
 	CreatedAt time.Time  `json:"created_at"`
 	UpdatedAt *time.Time `json:"updated_at"`
 }
@@ -26,7 +26,7 @@ type Article struct {
 // CreateArticleModul ...
 type CreateArticleModul struct {
 	Content        // Promoted fields
-	Author  Person `json:"author" binding:"required" `
+	Author  Person `json:"author" binding:"required"`
 }
 
 // JSONResult ..

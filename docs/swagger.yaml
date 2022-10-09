@@ -50,7 +50,7 @@ definitions:
         minLength: 4
         type: string
       lastname:
-        example: Doe
+        example: Does
         maxLength: 50
         minLength: 4
         type: string
@@ -85,7 +85,12 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/models.Article'
+            allOf:
+            - $ref: '#/definitions/models.JSONResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Article'
+              type: object
         "400":
           description: Bad Request
           schema:

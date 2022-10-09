@@ -52,7 +52,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/models.Article"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/models.JSONResult"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.Article"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
@@ -336,7 +348,7 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 50,
                     "minLength": 4,
-                    "example": "Doe"
+                    "example": "Does"
                 }
             }
         }
