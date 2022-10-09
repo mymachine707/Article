@@ -57,6 +57,22 @@ definitions:
     - body
     - title
     type: object
+  models.CreateAuthorModul:
+    properties:
+      firstname:
+        example: John
+        maxLength: 50
+        minLength: 4
+        type: string
+      lastname:
+        example: Does
+        maxLength: 50
+        minLength: 4
+        type: string
+    required:
+    - firstname
+    - lastname
+    type: object
   models.JSONErrorResponse:
     properties:
       error:
@@ -88,6 +104,30 @@ definitions:
     - author_id
     - body
     - title
+    type: object
+  models.PackedAuthorModel:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      firstname:
+        example: John
+        maxLength: 50
+        minLength: 4
+        type: string
+      id:
+        type: string
+      lastname:
+        example: Does
+        maxLength: 50
+        minLength: 4
+        type: string
+      updated_at:
+        type: string
+    required:
+    - firstname
+    - lastname
     type: object
 info:
   contact:
@@ -242,4 +282,148 @@ paths:
       summary: GetArticleByID
       tags:
       - article
+  /v2/author:
+    post:
+      consumes:
+      - application/json
+      description: Creat a new author
+      parameters:
+      - description: Author body
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateAuthorModul'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.JSONResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Author'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.JSONErrorResponse'
+      summary: Creat Author
+      tags:
+      - author
+  /v2/author/:
+    get:
+      consumes:
+      - application/json
+      description: GetAuthorList
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.JSONResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Author'
+                  type: array
+              type: object
+      summary: List authors
+      tags:
+      - author
+    put:
+      consumes:
+      - application/json
+      description: Update Author
+      parameters:
+      - description: Author body
+        in: body
+        name: author
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateAuthorModul'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.JSONResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Author'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.JSONErrorResponse'
+      summary: My work !!! -- Update Author
+      tags:
+      - author
+  /v2/author/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: get element by id and delete this author
+      parameters:
+      - description: Author id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.JSONResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Author'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.JSONErrorResponse'
+      summary: My work!!! -- Delete Author
+      tags:
+      - author
+    get:
+      consumes:
+      - application/json
+      description: get an author by id
+      parameters:
+      - description: Author id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/models.JSONResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.PackedAuthorModel'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.JSONErrorResponse'
+      summary: GetAuthorByID
+      tags:
+      - author
 swagger: "2.0"

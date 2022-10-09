@@ -16,8 +16,8 @@ import (
 // @Accept      json
 // @Produce     json
 // @Param       author body     models.CreateAuthorModul true "Author body"
-// @Success     201     {object} models.JSONResult{data=models.Author}
-// @Failure     400     {object} models.JSONErrorResponse
+// @Success     201    {object} models.JSONResult{data=models.Author}
+// @Failure     400    {object} models.JSONErrorResponse
 // @Router      /v2/author [post]
 func CreatAuthor(c *gin.Context) {
 
@@ -119,8 +119,8 @@ func GetAuthorList(c *gin.Context) {
 // @Accept      json
 // @Produce     json
 // @Param       author body     models.CreateAuthorModul true "Author body"
-// @Success     201     {object} models.JSONResult{data=[]models.Author}
-// @Failure     400     {object} models.JSONErrorResponse
+// @Success     201    {object} models.JSONResult{data=[]models.Author}
+// @Failure     400    {object} models.JSONErrorResponse
 // @Router      /v2/author/ [put]
 func AuthorUpdate(c *gin.Context) {
 	var author models.Author
