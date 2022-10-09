@@ -44,27 +44,31 @@ func GetAuthorList() (resp []models.Author, err error) {
 }
 
 // UpdateAuthor ...
-func UpdateAuthor(article models.Author) error {
+func UpdateAuthor(author models.Author) error {
 	for i, v := range InMemoryAuthorData {
-		if v.ID == article.ID {
-			article.CreatedAt = v.CreatedAt
+		if v.ID == author.ID {
+			author.CreatedAt = v.CreatedAt
 			t := time.Now()
-			article.UpdatedAt = &t
-			InMemoryAuthorData[i] = article
+			author.UpdatedAt = &t
+			InMemoryAuthorData[i] = author
 			return nil
 		}
 	}
-	return errors.New("Cannot Update article")
+	return errors.New("Cannot Update author")
 }
 
 // DeleteAuthor ...
 func DeleteAuthor(idStr string) error {
 
-	for i, v := range InMemoryArticleData {
+	for i, v := range InMemoryAuthorData {
 		if v.ID == idStr {
-			InMemoryArticleData = remove(InMemoryArticleData, i)
+			InMemoryAuthorData = removeAuthorDelete(InMemoryAuthorData, i)
 			return nil
 		}
 	}
-	return errors.New("Cannot delete article becouse Article not found")
+	return errors.New("Cannot delete article becouse Author not found")
+}
+
+func removeAuthorDelete(slice []models.Author, s int) []models.Author {
+	return append(slice[:s], slice[s+1:]...)
 }

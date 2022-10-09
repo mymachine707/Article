@@ -26,8 +26,8 @@ func main() {
 	docs.SwaggerInfo.Version = "2.0"
 
 	err := storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
-		Firstname: "Islombek",
-		Lastname:  "Oripov",
+		Firstname: "Islombek--example main",
+		Lastname:  "Oripov--example main",
 	})
 
 	if err != nil {
@@ -36,8 +36,8 @@ func main() {
 
 	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
-			Title: "Lorem",
-			Body:  "new life in coding",
+			Title: "Lorem--example main",
+			Body:  "new life in coding--example main",
 		},
 		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
 	})

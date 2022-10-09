@@ -556,7 +556,7 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 50,
                     "minLength": 4,
-                    "example": "John"
+                    "example": "John--example"
                 },
                 "id": {
                     "type": "string"
@@ -565,7 +565,7 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 50,
                     "minLength": 4,
-                    "example": "Does"
+                    "example": "Does--example"
                 },
                 "updated_at": {
                     "type": "string"

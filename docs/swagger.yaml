@@ -27,14 +27,14 @@ definitions:
       deleted_at:
         type: string
       firstname:
-        example: John
+        example: John--example
         maxLength: 50
         minLength: 4
         type: string
       id:
         type: string
       lastname:
-        example: Does
+        example: Does--example
         maxLength: 50
         minLength: 4
         type: string
