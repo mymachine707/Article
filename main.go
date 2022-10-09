@@ -62,6 +62,12 @@ func main() {
 		v1.GET("/article", handlars.GetArticleList)
 		v1.PUT("/article", handlars.ArticleUpdate)
 		v1.DELETE("/article/:id", handlars.DeleteArticle)
+
+		v1.POST("/author", handlars.CreatAuthor)
+		v1.GET("/author/:id", handlars.GetAuthorByID)
+		v1.GET("/author", handlars.GetAuthorList)
+		v1.PUT("/author", handlars.AuthorUpdate)
+		v1.DELETE("/author/:id", handlars.DeleteAuthor)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
