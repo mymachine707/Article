@@ -29,6 +29,9 @@ func GetAuthorByID(id string) (models.Author, error) {
 	var result models.Author
 
 	for _, v := range InMemoryAuthorData {
+		if v.ID == id && v.DeletedAt != nil {
+			return result, errors.New("author already deleted")
+		}
 		if v.ID == id && v.DeletedAt == nil {
 			result = v
 			return result, nil

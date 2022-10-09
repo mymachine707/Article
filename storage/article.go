@@ -29,6 +29,9 @@ func GetArticleByID(id string) (models.PackedArticleModel, error) {
 	var result models.PackedArticleModel
 
 	for _, v := range InMemoryArticleData {
+		if v.ID == id && v.DeletedAt != nil {
+			return result, errors.New("article already deleted")
+		}
 		if v.ID == id && v.DeletedAt == nil {
 			author, err := GetAuthorByID(v.AuthorID)
 			if err != nil {
