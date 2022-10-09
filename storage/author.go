@@ -34,5 +34,5 @@ func GetAuthorByID(id string) (models.Author, error) {
 			return result, nil
 		}
 	}
-	return result, errors.New("Author not found!")
+	return result, errors.New("author not found")
 }

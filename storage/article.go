@@ -43,7 +43,7 @@ func GetArticleByID(id string) (models.PackedArticleModel, error) {
 			return result, nil
 		}
 	}
-	return result, errors.New("Article not found!")
+	return result, errors.New("article not found")
 }
 
 // GetArticleList ...
