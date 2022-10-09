@@ -1,11 +1,13 @@
 definitions:
   models.Article:
     properties:
-      author:
-        $ref: '#/definitions/models.Person'
+      author_id:
+        type: string
       body:
         type: string
       created_at:
+        type: string
+      deleted_at:
         type: string
       id:
         type: string
@@ -14,20 +16,44 @@ definitions:
       updated_at:
         type: string
     required:
-    - author
+    - author_id
     - body
     - title
     type: object
+  models.Author:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      firstname:
+        example: John
+        maxLength: 50
+        minLength: 4
+        type: string
+      id:
+        type: string
+      lastname:
+        example: Does
+        maxLength: 50
+        minLength: 4
+        type: string
+      updated_at:
+        type: string
+    required:
+    - firstname
+    - lastname
+    type: object
   models.CreateArticleModul:
     properties:
-      author:
-        $ref: '#/definitions/models.Person'
+      author_id:
+        type: string
       body:
         type: string
       title:
         type: string
     required:
-    - author
+    - author_id
     - body
     - title
     type: object
@@ -42,21 +68,26 @@ definitions:
       message:
         type: string
     type: object
-  models.Person:
+  models.PackedArticleModel:
     properties:
-      firstname:
-        example: John
-        maxLength: 50
-        minLength: 4
+      author_id:
+        $ref: '#/definitions/models.Author'
+      body:
         type: string
-      lastname:
-        example: Does
-        maxLength: 50
-        minLength: 4
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: string
+      title:
+        type: string
+      updated_at:
         type: string
     required:
-    - firstname
-    - lastname
+    - author_id
+    - body
+    - title
     type: object
 info:
   contact:
@@ -202,7 +233,7 @@ paths:
             - $ref: '#/definitions/models.JSONResult'
             - properties:
                 data:
-                  $ref: '#/definitions/models.Article'
+                  $ref: '#/definitions/models.PackedArticleModel'
               type: object
         "400":
           description: Bad Request

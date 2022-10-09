@@ -16,7 +16,7 @@ func AddArticle(id string, entity models.CreateArticleModul) error {
 
 	article.ID = id
 	article.Content = entity.Content
-	article.Author = entity.Author
+	article.AuthorID = entity.AuthorID
 	article.CreatedAt = time.Now()
 
 	InMemoryArticleData = append(InMemoryArticleData, article)
@@ -25,13 +25,25 @@ func AddArticle(id string, entity models.CreateArticleModul) error {
 }
 
 // GetArticleByID ...
-func GetArticleByID(id string) (models.Article, error) {
+func GetArticleByID(id string) (models.PackedArticleModel, error) {
+	var result models.PackedArticleModel
+
 	for _, v := range InMemoryArticleData {
 		if v.ID == id {
-			return v, nil
+			author, err := GetAuthorByID(v.AuthorID)
+			if err != nil {
+				return result, err
+			}
+			result.ID = v.ID
+			result.Author = author
+			result.Content = v.Content
+			result.CreatedAt = v.CreatedAt
+			result.UpdatedAt = v.UpdatedAt
+			result.DeletedAt = v.DeletedAt
+			return result, nil
 		}
 	}
-	return models.Article{}, errors.New("Article not found!")
+	return result, errors.New("Article not found!")
 }
 
 // GetArticleList ...

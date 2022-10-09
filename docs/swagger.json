@@ -189,7 +189,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/models.Article"
+                                            "$ref": "#/definitions/models.PackedArticleModel"
                                         }
                                     }
                                 }
@@ -258,18 +258,21 @@
         "models.Article": {
             "type": "object",
             "required": [
-                "author",
+                "author_id",
                 "body",
                 "title"
             ],
             "properties": {
-                "author": {
-                    "$ref": "#/definitions/models.Person"
+                "author_id": {
+                    "type": "string"
                 },
                 "body": {
                     "type": "string"
                 },
                 "created_at": {
+                    "type": "string"
+                },
+                "deleted_at": {
                     "type": "string"
                 },
                 "id": {
@@ -283,16 +286,49 @@
                 }
             }
         },
+        "models.Author": {
+            "type": "object",
+            "required": [
+                "firstname",
+                "lastname"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 4,
+                    "example": "John"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 4,
+                    "example": "Does"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "models.CreateArticleModul": {
             "type": "object",
             "required": [
-                "author",
+                "author_id",
                 "body",
                 "title"
             ],
             "properties": {
-                "author": {
-                    "$ref": "#/definitions/models.Person"
+                "author_id": {
+                    "type": "string"
                 },
                 "body": {
                     "type": "string"
@@ -319,24 +355,34 @@
                 }
             }
         },
-        "models.Person": {
+        "models.PackedArticleModel": {
             "type": "object",
             "required": [
-                "firstname",
-                "lastname"
+                "author_id",
+                "body",
+                "title"
             ],
             "properties": {
-                "firstname": {
-                    "type": "string",
-                    "maxLength": 50,
-                    "minLength": 4,
-                    "example": "John"
+                "author_id": {
+                    "$ref": "#/definitions/models.Author"
                 },
-                "lastname": {
-                    "type": "string",
-                    "maxLength": 50,
-                    "minLength": 4,
-                    "example": "Does"
+                "body": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
                 }
             }
         }
