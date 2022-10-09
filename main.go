@@ -25,7 +25,7 @@ func main() {
 	docs.SwaggerInfo.Description = "This is a sample server Petstore server."
 	docs.SwaggerInfo.Version = "2.0"
 
-	err := storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.AuthorCreateModel{
+	err := storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek",
 		Lastname:  "Oripov",
 	})

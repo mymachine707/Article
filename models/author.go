@@ -12,8 +12,8 @@ type Author struct {
 	DeletedAt *time.Time `json:"deleted_at"`
 }
 
-// AuthorCreateModel ..
-type AuthorCreateModel struct {
+// CreateAuthorModul ..
+type CreateAuthorModul struct {
 	Firstname string `json:"firstname" binding:"required" minLength:"4" maxLength:"50" example:"John"`
 	Lastname  string `json:"lastname" binding:"required" minLength:"4" maxLength:"50" example:"Does"`
 }
