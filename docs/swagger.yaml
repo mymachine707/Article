@@ -103,6 +103,7 @@ definitions:
     required:
     - author_id
     - body
+    - id
     - title
     type: object
   models.PackedAuthorModel:
@@ -131,8 +132,6 @@ definitions:
     type: object
   models.UpdateArticleModul:
     properties:
-      author_id:
-        type: string
       body:
         type: string
       id:
@@ -140,7 +139,6 @@ definitions:
       title:
         type: string
     required:
-    - author_id
     - body
     - id
     - title

@@ -634,6 +634,7 @@ const docTemplate = `{
             "required": [
                 "author_id",
                 "body",
+                "id",
                 "title"
             ],
             "properties": {
@@ -696,15 +697,11 @@ const docTemplate = `{
         "models.UpdateArticleModul": {
             "type": "object",
             "required": [
-                "author_id",
                 "body",
                 "id",
                 "title"
             ],
             "properties": {
-                "author_id": {
-                    "type": "string"
-                },
                 "body": {
                     "type": "string"
                 },

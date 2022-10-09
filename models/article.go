@@ -26,7 +26,7 @@ type CreateArticleModul struct {
 
 // PackedArticleModel ...
 type PackedArticleModel struct {
-	ID        string     `json:"id"`
+	ID        string     `json:"id" binding:"required"`
 	Content              // Promoted fields
 	Author    Author     `json:"author_id" binding:"required"`
 	CreatedAt time.Time  `json:"created_at"`
@@ -36,7 +36,6 @@ type PackedArticleModel struct {
 
 // UpdateArticleModul ...
 type UpdateArticleModul struct {
-	ID       string `json:"id" binding:"required"`
-	Content         // Promoted fields
-	AuthorID string `json:"author_id" binding:"required"`
+	ID      string `json:"id" binding:"required"`
+	Content        // Promoted fields
 }

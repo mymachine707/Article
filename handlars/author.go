@@ -140,9 +140,17 @@ func AuthorUpdate(c *gin.Context) {
 		return
 	}
 
+	res, err := storage.GetAuthorByID(author.ID)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
+			Error: err.Error(),
+		})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Author Update",
-		"data":    storage.InMemoryAuthorData,
+		"data":    res,
 	})
 
 }
@@ -160,8 +168,7 @@ func AuthorUpdate(c *gin.Context) {
 func DeleteAuthor(c *gin.Context) {
 	idStr := c.Param("id")
 
-	// my code change ...
-	err := storage.DeleteAuthor(idStr)
+	author, err := storage.GetAuthorByID(idStr)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
@@ -169,8 +176,20 @@ func DeleteAuthor(c *gin.Context) {
 		})
 		return
 	}
+
+	// my code change ...
+	err = storage.DeleteAuthor(idStr)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
+			Error: err.Error(),
+		})
+		return
+	}
+	
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Author Deleted",
+		"data":    author,
 	})
 
 }

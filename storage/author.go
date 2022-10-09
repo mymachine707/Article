@@ -29,7 +29,7 @@ func GetAuthorByID(id string) (models.Author, error) {
 	var result models.Author
 
 	for _, v := range InMemoryAuthorData {
-		if v.ID == id {
+		if v.ID == id && v.DeletedAt == nil {
 			result = v
 			return result, nil
 		}
@@ -39,14 +39,18 @@ func GetAuthorByID(id string) (models.Author, error) {
 
 // GetAuthorList ...
 func GetAuthorList() (resp []models.Author, err error) {
-	resp = InMemoryAuthorData
+	for _, v := range InMemoryAuthorData {
+		if v.DeletedAt == nil {
+			resp = append(resp, v)
+		}
+	}
 	return resp, err
 }
 
 // UpdateAuthor ...
 func UpdateAuthor(author models.Author) error {
 	for i, v := range InMemoryAuthorData {
-		if v.ID == author.ID {
+		if v.ID == author.ID && v.DeletedAt == nil {
 			author.CreatedAt = v.CreatedAt
 			t := time.Now()
 			author.UpdatedAt = &t
@@ -62,7 +66,16 @@ func DeleteAuthor(idStr string) error {
 
 	for i, v := range InMemoryAuthorData {
 		if v.ID == idStr {
-			InMemoryAuthorData = removeAuthorDelete(InMemoryAuthorData, i)
+			// hard delete uchun kod
+			//InMemoryAuthorData = removeAuthorDelete(InMemoryAuthorData, i)
+
+			// soft delete uchun kod
+			if v.DeletedAt != nil {
+				return errors.New("author already deleted")
+			}
+			t := time.Now()
+			v.DeletedAt = &t
+			InMemoryAuthorData[i] = v
 			return nil
 		}
 	}

@@ -29,7 +29,7 @@ func GetArticleByID(id string) (models.PackedArticleModel, error) {
 	var result models.PackedArticleModel
 
 	for _, v := range InMemoryArticleData {
-		if v.ID == id {
+		if v.ID == id && v.DeletedAt == nil {
 			author, err := GetAuthorByID(v.AuthorID)
 			if err != nil {
 				return result, err
@@ -48,14 +48,19 @@ func GetArticleByID(id string) (models.PackedArticleModel, error) {
 
 // GetArticleList ...
 func GetArticleList() (resp []models.Article, err error) {
-	resp = InMemoryArticleData
+	for _, v := range InMemoryArticleData {
+		if v.DeletedAt == nil {
+			resp = append(resp, v)
+		}
+	}
+
 	return resp, err
 }
 
 // UpdateArticle ...
 func UpdateArticle(article models.Article) error {
 	for i, v := range InMemoryArticleData {
-		if v.ID == article.ID {
+		if v.ID == article.ID && v.DeletedAt == nil {
 			article.CreatedAt = v.CreatedAt
 			t := time.Now()
 			article.UpdatedAt = &t
@@ -71,7 +76,16 @@ func DeleteArticle(idStr string) error {
 
 	for i, v := range InMemoryArticleData {
 		if v.ID == idStr {
-			InMemoryArticleData = remove(InMemoryArticleData, i)
+			if v.DeletedAt != nil {
+				return errors.New("article already deleted")
+			}
+			// bu kod article hard delete qilish uchun :
+			// InMemoryArticleData = remove(InMemoryArticleData, i)
+
+			// bu kod soft delete uchun:
+			t := time.Now()
+			v.DeletedAt = &t
+			InMemoryArticleData[i] = v
 			return nil
 		}
 	}

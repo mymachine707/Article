@@ -134,6 +134,15 @@ func ArticleUpdate(c *gin.Context) {
 	err := storage.UpdateArticle(article)
 
 	if err != nil {
+		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{
+			Error: err.Error(),
+		})
+		return
+	}
+
+	res, err := storage.GetArticleByID(article.ID)
+
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
 			Error: err.Error(),
 		})
@@ -142,7 +151,7 @@ func ArticleUpdate(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Article Update",
-		"data":    storage.InMemoryArticleData,
+		"data":    res,
 	})
 
 }
@@ -160,8 +169,17 @@ func ArticleUpdate(c *gin.Context) {
 func DeleteArticle(c *gin.Context) {
 	idStr := c.Param("id")
 
+	article, err := storage.GetArticleByID(idStr)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
+			Error: err.Error(),
+		})
+		return
+	}
+
 	// my code change ...
-	err := storage.DeleteArticle(idStr)
+	err = storage.DeleteArticle(idStr)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
@@ -171,6 +189,7 @@ func DeleteArticle(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Article Deleted",
+		"data":    article,
 	})
 
 }
