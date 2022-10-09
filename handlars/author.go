@@ -118,7 +118,7 @@ func GetAuthorList(c *gin.Context) {
 // @Tags        author
 // @Accept      json
 // @Produce     json
-// @Param       author body     models.CreateAuthorModul true "Author body"
+// @Param       author body     models.UpdateAuthorModul true "Author body"
 // @Success     201    {object} models.JSONResult{data=[]models.Author}
 // @Failure     400    {object} models.JSONErrorResponse
 // @Router      /v2/author/ [put]

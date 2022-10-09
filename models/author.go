@@ -27,3 +27,10 @@ type PackedAuthorModel struct {
 	UpdatedAt *time.Time `json:"updated_at"`
 	DeletedAt *time.Time `json:"deleted_at"`
 }
+
+// UpdateAuthorModul ..
+type UpdateAuthorModul struct {
+	ID        string `json:"id" binding:"required"`
+	Firstname string `json:"firstname" binding:"required" minLength:"4" maxLength:"50" example:"John"`
+	Lastname  string `json:"lastname" binding:"required" minLength:"4" maxLength:"50" example:"Does"`
+}

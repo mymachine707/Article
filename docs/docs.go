@@ -132,7 +132,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.CreateArticleModul"
+                            "$ref": "#/definitions/models.UpdateArticleModul"
                         }
                     }
                 ],
@@ -373,7 +373,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.CreateAuthorModul"
+                            "$ref": "#/definitions/models.UpdateAuthorModul"
                         }
                     }
                 ],
@@ -690,6 +690,54 @@ const docTemplate = `{
                 },
                 "updated_at": {
                     "type": "string"
+                }
+            }
+        },
+        "models.UpdateArticleModul": {
+            "type": "object",
+            "required": [
+                "author_id",
+                "body",
+                "id",
+                "title"
+            ],
+            "properties": {
+                "author_id": {
+                    "type": "string"
+                },
+                "body": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateAuthorModul": {
+            "type": "object",
+            "required": [
+                "firstname",
+                "id",
+                "lastname"
+            ],
+            "properties": {
+                "firstname": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 4,
+                    "example": "John"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 4,
+                    "example": "Does"
                 }
             }
         }

@@ -118,7 +118,7 @@ func GetArticleList(c *gin.Context) {
 // @Tags        article
 // @Accept      json
 // @Produce     json
-// @Param       article body     models.CreateArticleModul true "Article body"
+// @Param       article body     models.UpdateArticleModul true "Article body"
 // @Success     201     {object} models.JSONResult{data=[]models.Article}
 // @Failure     400     {object} models.JSONErrorResponse
 // @Router      /v2/article/ [put]
