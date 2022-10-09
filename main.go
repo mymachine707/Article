@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -26,8 +25,7 @@ func main() {
 	docs.SwaggerInfo.Description = "This is a sample server Petstore server."
 	docs.SwaggerInfo.Version = "2.0"
 
-	storage.InMemoryArticleData = append(storage.InMemoryArticleData, models.Article{
-		ID: "1b166874-d9cb-4e34-a13b-fdb5716c92c4",
+	err := storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: "Lorem",
 			Body:  "new life in coding",
@@ -36,8 +34,11 @@ func main() {
 			Firstname: "Islombek",
 			Lastname:  "Oripov",
 		},
-		CreatedAt: time.Now(),
 	})
+
+	if err != nil {
+		panic(err)
+	}
 
 	r := gin.Default()
 
