@@ -160,6 +160,7 @@ func ArticleUpdate(c *gin.Context) {
 func DeleteArticle(c *gin.Context) {
 	idStr := c.Param("id")
 
+	// my code change ...
 	err := storage.DeleteArticle(idStr)
 
 	if err != nil {
@@ -171,18 +172,5 @@ func DeleteArticle(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Article Deleted",
 	})
-
-	// my code change ...
-
-	// for i, v := range storage.InMemoryArticleData {
-	// 	if v.ID == idStr {
-	// 		c.JSON(http.StatusOK, gin.H{
-	// 			"message": "Article Deleted",
-	// 			"data":    v,
-	// 		})
-	// 		storage.InMemoryArticleData = remove(storage.InMemoryArticleData, i)
-	// 		return
-	// 	}
-	// }
 
 }
