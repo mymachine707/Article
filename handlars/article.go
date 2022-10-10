@@ -4,6 +4,7 @@ import (
 	"mymachine707/models"
 	"mymachine707/storage"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -96,6 +97,28 @@ func GetArticleByID(c *gin.Context) {
 // @Success     200 {object} models.JSONResult{data=[]models.Article}
 // @Router      /v2/article/ [get]
 func GetArticleList(c *gin.Context) {
+
+	offsets := c.DefaultQuery("offset", "0")
+	limits := c.DefaultQuery("limit", "10")
+	search := c.DefaultQuery("search", "")
+
+	offset, err: = strconv.Atoi(offsets)
+	
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{
+			Error: err.Error(),
+		})
+		return
+	}
+
+	limit, err: = strconv.Atoi(limits)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{
+			Error: err.Error(),
+		})
+		return
+	}
 
 	articleList, err := storage.GetArticleList()
 
