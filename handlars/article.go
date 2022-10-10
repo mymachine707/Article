@@ -134,7 +134,7 @@ func ArticleUpdate(c *gin.Context) {
 	err := storage.UpdateArticle(article)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{
+		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{ //!
 			Error: err.Error(),
 		})
 		return
@@ -191,5 +191,4 @@ func DeleteArticle(c *gin.Context) {
 		"message": "Article Deleted",
 		"data":    article,
 	})
-
 }
