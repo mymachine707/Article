@@ -123,15 +123,15 @@ func GetAuthorList(c *gin.Context) {
 // @Failure     400    {object} models.JSONErrorResponse
 // @Router      /v2/author/ [put]
 func AuthorUpdate(c *gin.Context) {
-	var author models.Author
-	if err := c.ShouldBindJSON(&author); err != nil {
+	var body models.UpdateAuthorModul
+	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{Error: err.Error()})
 		return
 	}
 
 	// my work change code ... mst
 
-	err := storage.UpdateAuthor(author)
+	err := storage.UpdateAuthor(body)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
@@ -140,7 +140,7 @@ func AuthorUpdate(c *gin.Context) {
 		return
 	}
 
-	res, err := storage.GetAuthorByID(author.ID)
+	res, err := storage.GetAuthorByID(body.ID)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
@@ -186,7 +186,7 @@ func DeleteAuthor(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Author Deleted",
 		"data":    author,

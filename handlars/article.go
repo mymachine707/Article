@@ -123,15 +123,15 @@ func GetArticleList(c *gin.Context) {
 // @Failure     400     {object} models.JSONErrorResponse
 // @Router      /v2/article/ [put]
 func ArticleUpdate(c *gin.Context) {
-	var article models.Article
-	if err := c.ShouldBindJSON(&article); err != nil {
+	var body models.UpdateArticleModul
+	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{Error: err.Error()})
 		return
 	}
 
 	// my work change code ... mst
 
-	err := storage.UpdateArticle(article)
+	err := storage.UpdateArticle(body)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{ //!
@@ -140,7 +140,7 @@ func ArticleUpdate(c *gin.Context) {
 		return
 	}
 
-	res, err := storage.GetArticleByID(article.ID)
+	res, err := storage.GetArticleByID(body.ID)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{

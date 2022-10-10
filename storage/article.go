@@ -61,17 +61,21 @@ func GetArticleList() (resp []models.Article, err error) {
 }
 
 // UpdateArticle ...
-func UpdateArticle(article models.Article) error {
+func UpdateArticle(article models.UpdateArticleModul) error {
+
 	for i, v := range InMemoryArticleData {
 		if v.ID == article.ID && v.DeletedAt == nil {
-			article.CreatedAt = v.CreatedAt
+
+			v.Content = article.Content
 			t := time.Now()
-			article.UpdatedAt = &t
-			InMemoryArticleData[i] = article
+			v.UpdatedAt = &t
+
+			InMemoryArticleData[i] = v
+
 			return nil
 		}
 	}
-	return errors.New("Cannot Update article")
+	return errors.New("article not found")
 }
 
 // DeleteArticle ...

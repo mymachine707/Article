@@ -51,17 +51,22 @@ func GetAuthorList() (resp []models.Author, err error) {
 }
 
 // UpdateAuthor ...
-func UpdateAuthor(author models.Author) error {
+func UpdateAuthor(author models.UpdateAuthorModul) error {
+
 	for i, v := range InMemoryAuthorData {
 		if v.ID == author.ID && v.DeletedAt == nil {
-			author.CreatedAt = v.CreatedAt
+
+			v.Firstname = author.Firstname
+			v.Lastname = author.Lastname
 			t := time.Now()
-			author.UpdatedAt = &t
-			InMemoryAuthorData[i] = author
+			v.UpdatedAt = &t
+
+			InMemoryAuthorData[i] = v
+
 			return nil
 		}
 	}
-	return errors.New("Cannot Update author")
+	return errors.New("author not found")
 }
 
 // DeleteAuthor ...
