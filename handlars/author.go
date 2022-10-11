@@ -4,6 +4,7 @@ import (
 	"mymachine707/models"
 	"mymachine707/storage"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -93,11 +94,33 @@ func GetAuthorByID(c *gin.Context) {
 // @Tags        author
 // @Accept      json
 // @Produce     json
-// @Success     200 {object} models.JSONResult{data=[]models.Author}
+// @Param       offset query    int    false "0"
+// @Param       limit  query    int    false "100"
+// @Param       search query    string false "search exapmle"
+// @Success     200    {object} models.JSONResult{data=[]models.Author}
 // @Router      /v2/author/ [get]
 func GetAuthorList(c *gin.Context) {
 
-	authorList, err := storage.GetAuthorList()
+	offsetStr := c.DefaultQuery("offset", "0")
+	limitStr := c.DefaultQuery("limit", "100")
+	search := c.DefaultQuery("search", "")
+
+	offset, err := strconv.Atoi(offsetStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{
+			Error: err.Error(),
+		})
+		return
+	}
+	limit, err := strconv.Atoi(limitStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{
+			Error: err.Error(),
+		})
+		return
+	}
+
+	authorList, err := storage.GetAuthorList(offset, limit, search)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{

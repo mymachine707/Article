@@ -94,33 +94,35 @@ func GetArticleByID(c *gin.Context) {
 // @Tags        article
 // @Accept      json
 // @Produce     json
-// @Success     200 {object} models.JSONResult{data=[]models.Article}
+// @Param       offset query    int    false "0"   default(A)
+// @Param       limit  query    int    false "100" default(A)
+// @Param       search query    string false "s"   default(A)
+// @Success     200    {object} models.JSONResult{data=[]models.Article}
 // @Router      /v2/article/ [get]
 func GetArticleList(c *gin.Context) {
 
-	offsets := c.DefaultQuery("offset", "0")
-	limits := c.DefaultQuery("limit", "10")
-	search := c.DefaultQuery("search", "")
+	offsetStr := c.DefaultQuery("offset", "0")
+	limitStr := c.DefaultQuery("limit", "100")
 
-	offset, err: = strconv.Atoi(offsets)
-	
+	searchStr := c.DefaultQuery("search", "")
+
+	offset, err := strconv.Atoi(offsetStr)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{
+		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
 			Error: err.Error(),
 		})
 		return
 	}
 
-	limit, err: = strconv.Atoi(limits)
-
+	limit, err := strconv.Atoi(limitStr)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{
+		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
 			Error: err.Error(),
 		})
 		return
 	}
 
-	articleList, err := storage.GetArticleList()
+	articleList, err := storage.GetArticleList(offset, limit, searchStr)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{

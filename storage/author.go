@@ -3,6 +3,7 @@ package storage
 import (
 	"errors"
 	"mymachine707/models"
+	"strings"
 	"time"
 )
 
@@ -41,10 +42,20 @@ func GetAuthorByID(id string) (models.Author, error) {
 }
 
 // GetAuthorList ...
-func GetAuthorList() (resp []models.Author, err error) {
+func GetAuthorList(offset, limit int, serach string) (resp []models.Author, err error) {
+	off := 0
+	c := 0
+
 	for _, v := range InMemoryAuthorData {
-		if v.DeletedAt == nil {
-			resp = append(resp, v)
+		if v.DeletedAt == nil && (strings.Contains(v.Firstname, serach) || strings.Contains(v.Lastname, serach)) {
+			if offset <= off {
+				c++
+				resp = append(resp, v)
+			}
+			if limit <= c {
+				break
+			}
+			off++
 		}
 	}
 	return resp, err

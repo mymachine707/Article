@@ -3,6 +3,7 @@ package storage
 import (
 	"errors"
 	"mymachine707/models"
+	"strings"
 	"time"
 )
 
@@ -50,10 +51,21 @@ func GetArticleByID(id string) (models.PackedArticleModel, error) {
 }
 
 // GetArticleList ...
-func GetArticleList() (resp []models.Article, err error) {
+func GetArticleList(offset, limit int, search string) (resp []models.Article, err error) {
+	off := 0
+	c := 0
+
 	for _, v := range InMemoryArticleData {
-		if v.DeletedAt == nil {
-			resp = append(resp, v)
+		if v.DeletedAt == nil && (strings.Contains(v.Title, search) || strings.Contains(v.Body, search)) {
+
+			if offset <= off {
+				c++
+				resp = append(resp, v)
+			}
+			if limit <= c {
+				break
+			}
+			off++
 		}
 	}
 

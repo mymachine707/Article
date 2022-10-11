@@ -30,6 +30,93 @@ func main() {
 		Lastname:  "Oripov--example main",
 	})
 
+	// memory author
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 10",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 11 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 12 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 13 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 14 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 15 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 16 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 17 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 18 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 19 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 110 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 111 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 112 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 113 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 114 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 115 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 116 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 117 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 118 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 119 ",
+		Lastname:  "Oripov--example main",
+	})
+	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+		Firstname: "Islombek--example main 120 ",
+		Lastname:  "Oripov--example main",
+	})
+	// memory author
+
 	if err != nil {
 		panic(err)
 	}
@@ -41,6 +128,101 @@ func main() {
 		},
 		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
 	})
+
+	///memory article
+	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+		Content: models.Content{
+			Title: " 1 ",
+			Body:  "new life in coding--example main",
+		},
+		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
+	})
+	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+		Content: models.Content{
+			Title: " 2 ",
+			Body:  "new life in coding--example main",
+		},
+		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
+	})
+	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+		Content: models.Content{
+			Title: " 3 ",
+			Body:  "new life in coding--example main",
+		},
+		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
+	})
+	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+		Content: models.Content{
+			Title: " 4 ",
+			Body:  "new life in coding--example main",
+		},
+		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
+	})
+	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+		Content: models.Content{
+			Title: " 5 ",
+			Body:  "new life in coding--example main",
+		},
+		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
+	})
+	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+		Content: models.Content{
+			Title: " 6 ",
+			Body:  "new life in coding--example main",
+		},
+		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
+	})
+	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+		Content: models.Content{
+			Title: " 7 ",
+			Body:  "new life in coding--example main",
+		},
+		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
+	})
+	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+		Content: models.Content{
+			Title: " 8 ",
+			Body:  "new life in coding--example main",
+		},
+		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
+	})
+	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+		Content: models.Content{
+			Title: " 9 ",
+			Body:  "new life in coding--example main",
+		},
+		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
+	})
+	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+		Content: models.Content{
+			Title: " 10 ",
+			Body:  "new life in coding--example main",
+		},
+		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
+	})
+	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+		Content: models.Content{
+			Title: " 11 ",
+			Body:  "new life in coding--example main",
+		},
+		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
+	})
+	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+		Content: models.Content{
+			Title: " 12",
+			Body:  "new life in coding--example main",
+		},
+		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
+	})
+	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+		Content: models.Content{
+			Title: " 13 ",
+			Body:  "new life in coding--example main",
+		},
+		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
+	})
+
+	//memory article
 
 	if err != nil {
 		panic(err)

@@ -207,6 +207,20 @@ paths:
       consumes:
       - application/json
       description: GetArticleList
+      parameters:
+      - description: "0"
+        in: query
+        name: offset
+        type: integer
+      - description: "100"
+        in: query
+        name: limit
+        type: integer
+      - default: A
+        description: s
+        in: query
+        name: search
+        type: string
       produces:
       - application/json
       responses:
@@ -351,6 +365,19 @@ paths:
       consumes:
       - application/json
       description: GetAuthorList
+      parameters:
+      - description: "0"
+        in: query
+        name: offset
+        type: integer
+      - description: "100"
+        in: query
+        name: limit
+        type: integer
+      - description: search exapmle
+        in: query
+        name: search
+        type: string
       produces:
       - application/json
       responses:
