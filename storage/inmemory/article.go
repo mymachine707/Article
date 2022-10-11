@@ -14,7 +14,14 @@ func (IM InMemory) AddArticle(id string, entity models.CreateArticleModul) error
 
 	article.ID = id
 	article.Content = entity.Content
-	article.AuthorID = entity.AuthorID
+
+	author, err := IM.GetAuthorByID(article.AuthorID)
+
+	if err != nil {
+		return err
+	}
+
+	article.AuthorID = author.ID
 	article.CreatedAt = time.Now()
 
 	IM.Db.InMemoryArticleData = append(IM.Db.InMemoryArticleData, article)
