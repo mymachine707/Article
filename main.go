@@ -11,6 +11,7 @@ import (
 	"mymachine707/handlars"
 	"mymachine707/models"
 	"mymachine707/storage"
+	"mymachine707/storage/inmemory"
 )
 
 // @contact.name  API Support
@@ -25,93 +26,98 @@ func main() {
 	docs.SwaggerInfo.Description = "This is a sample server Petstore server."
 	docs.SwaggerInfo.Version = "2.0"
 
-	err := storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	var stg storage.Interfaces
+	stg = inmemory.InMemory{
+		Db: &inmemory.DB{},
+	}
+
+	err := stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main",
 		Lastname:  "Oripov--example main",
 	})
 
 	// memory author
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 10",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 11 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 12 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 13 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 14 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 15 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 16 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 17 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 18 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 19 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 110 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 111 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 112 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 113 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 114 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 115 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 116 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 117 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 118 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 119 ",
 		Lastname:  "Oripov--example main",
 	})
-	err = storage.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
+	err = stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
 		Firstname: "Islombek--example main 120 ",
 		Lastname:  "Oripov--example main",
 	})
@@ -121,7 +127,7 @@ func main() {
 		panic(err)
 	}
 
-	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+	err = stg.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: "Lorem--example main",
 			Body:  "new life in coding--example main",
@@ -130,91 +136,91 @@ func main() {
 	})
 
 	///memory article
-	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+	err = stg.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: " 1 ",
 			Body:  "new life in coding--example main",
 		},
 		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
 	})
-	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+	err = stg.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: " 2 ",
 			Body:  "new life in coding--example main",
 		},
 		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
 	})
-	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+	err = stg.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: " 3 ",
 			Body:  "new life in coding--example main",
 		},
 		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
 	})
-	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+	err = stg.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: " 4 ",
 			Body:  "new life in coding--example main",
 		},
 		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
 	})
-	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+	err = stg.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: " 5 ",
 			Body:  "new life in coding--example main",
 		},
 		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
 	})
-	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+	err = stg.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: " 6 ",
 			Body:  "new life in coding--example main",
 		},
 		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
 	})
-	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+	err = stg.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: " 7 ",
 			Body:  "new life in coding--example main",
 		},
 		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
 	})
-	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+	err = stg.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: " 8 ",
 			Body:  "new life in coding--example main",
 		},
 		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
 	})
-	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+	err = stg.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: " 9 ",
 			Body:  "new life in coding--example main",
 		},
 		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
 	})
-	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+	err = stg.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: " 10 ",
 			Body:  "new life in coding--example main",
 		},
 		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
 	})
-	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+	err = stg.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: " 11 ",
 			Body:  "new life in coding--example main",
 		},
 		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
 	})
-	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+	err = stg.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: " 12",
 			Body:  "new life in coding--example main",
 		},
 		AuthorID: "b3546729-0695-4c63-ba3d-c3caa7310cde",
 	})
-	err = storage.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
+	err = stg.AddArticle("1b166874-d9cb-4e34-a13b-fdb5716c92c4", models.CreateArticleModul{
 		Content: models.Content{
 			Title: " 13 ",
 			Body:  "new life in coding--example main",
@@ -236,20 +242,23 @@ func main() {
 		})
 	})
 
+	h := handlars.Handler{
+		Stg: stg,
+	}
 	// Gruppirovka qilindi
 	v1 := r.Group("v2")
 	{
-		v1.POST("/article", handlars.CreatArticle)
-		v1.GET("/article/:id", handlars.GetArticleByID)
-		v1.GET("/article", handlars.GetArticleList)
-		v1.PUT("/article", handlars.ArticleUpdate)
-		v1.DELETE("/article/:id", handlars.DeleteArticle)
+		v1.POST("/article", h.CreatArticle)
+		v1.GET("/article/:id", h.GetArticleByID)
+		v1.GET("/article", h.GetArticleList)
+		v1.PUT("/article", h.ArticleUpdate)
+		v1.DELETE("/article/:id", h.DeleteArticle)
 
-		v1.POST("/author", handlars.CreatAuthor)
-		v1.GET("/author/:id", handlars.GetAuthorByID)
-		v1.GET("/author", handlars.GetAuthorList)
-		v1.PUT("/author", handlars.AuthorUpdate)
-		v1.DELETE("/author/:id", handlars.DeleteAuthor)
+		v1.POST("/author", h.CreatAuthor)
+		v1.GET("/author/:id", h.GetAuthorByID)
+		v1.GET("/author", h.GetAuthorList)
+		v1.PUT("/author", h.AuthorUpdate)
+		v1.DELETE("/author/:id", h.DeleteAuthor)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

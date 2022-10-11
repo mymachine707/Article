@@ -2,7 +2,6 @@ package handlars
 
 import (
 	"mymachine707/models"
-	"mymachine707/storage"
 	"net/http"
 	"strconv"
 
@@ -20,7 +19,7 @@ import (
 // @Success     201     {object} models.JSONResult{data=models.Article}
 // @Failure     400     {object} models.JSONErrorResponse
 // @Router      /v2/article [post]
-func CreatArticle(c *gin.Context) {
+func (h *Handler) CreatArticle(c *gin.Context) {
 
 	var body models.CreateArticleModul
 
@@ -33,7 +32,7 @@ func CreatArticle(c *gin.Context) {
 
 	// create new article
 	id := uuid.New()
-	err := storage.AddArticle(id.String(), body)
+	err := h.Stg.AddArticle(id.String(), body)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{
@@ -42,7 +41,7 @@ func CreatArticle(c *gin.Context) {
 		return
 	}
 
-	article, err := storage.GetArticleByID(id.String()) // maqsad tekshirish rostan  ham create bo'ldimi?
+	article, err := h.Stg.GetArticleByID(id.String()) // maqsad tekshirish rostan  ham create bo'ldimi?
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
@@ -67,13 +66,13 @@ func CreatArticle(c *gin.Context) {
 // @Success     201 {object} models.JSONResult{data=models.PackedArticleModel}
 // @Failure     400 {object} models.JSONErrorResponse
 // @Router      /v2/article/{id} [get]
-func GetArticleByID(c *gin.Context) {
+func (h *Handler) GetArticleByID(c *gin.Context) {
 
 	idStr := c.Param("id")
 
 	// validation
 
-	article, err := storage.GetArticleByID(idStr)
+	article, err := h.Stg.GetArticleByID(idStr)
 
 	if err != nil {
 		c.JSON(http.StatusNotFound, models.JSONErrorResponse{
@@ -99,7 +98,7 @@ func GetArticleByID(c *gin.Context) {
 // @Param       search query    string false "s"   default(A)
 // @Success     200    {object} models.JSONResult{data=[]models.Article}
 // @Router      /v2/article/ [get]
-func GetArticleList(c *gin.Context) {
+func (h *Handler) GetArticleList(c *gin.Context) {
 
 	offsetStr := c.DefaultQuery("offset", "0")
 	limitStr := c.DefaultQuery("limit", "100")
@@ -122,7 +121,7 @@ func GetArticleList(c *gin.Context) {
 		return
 	}
 
-	articleList, err := storage.GetArticleList(offset, limit, searchStr)
+	articleList, err := h.Stg.GetArticleList(offset, limit, searchStr)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
@@ -147,7 +146,7 @@ func GetArticleList(c *gin.Context) {
 // @Success     201     {object} models.JSONResult{data=[]models.Article}
 // @Failure     400     {object} models.JSONErrorResponse
 // @Router      /v2/article/ [put]
-func ArticleUpdate(c *gin.Context) {
+func (h *Handler) ArticleUpdate(c *gin.Context) {
 	var body models.UpdateArticleModul
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{Error: err.Error()})
@@ -156,7 +155,7 @@ func ArticleUpdate(c *gin.Context) {
 
 	// my work change code ... mst
 
-	err := storage.UpdateArticle(body)
+	err := h.Stg.UpdateArticle(body)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{ //!
@@ -165,7 +164,7 @@ func ArticleUpdate(c *gin.Context) {
 		return
 	}
 
-	res, err := storage.GetArticleByID(body.ID)
+	res, err := h.Stg.GetArticleByID(body.ID)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
@@ -191,10 +190,10 @@ func ArticleUpdate(c *gin.Context) {
 // @Success     201 {object} models.JSONResult{data=models.Article}
 // @Failure     400 {object} models.JSONErrorResponse
 // @Router      /v2/article/{id} [delete]
-func DeleteArticle(c *gin.Context) {
+func (h *Handler) DeleteArticle(c *gin.Context) {
 	idStr := c.Param("id")
 
-	article, err := storage.GetArticleByID(idStr)
+	article, err := h.Stg.GetArticleByID(idStr)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
@@ -204,7 +203,7 @@ func DeleteArticle(c *gin.Context) {
 	}
 
 	// my code change ...
-	err = storage.DeleteArticle(idStr)
+	err = h.Stg.DeleteArticle(idStr)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
