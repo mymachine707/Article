@@ -105,7 +105,7 @@ func GetAuthorList(c *gin.Context) {
 	limitStr := c.DefaultQuery("limit", "100")
 	search := c.DefaultQuery("search", "")
 
-	offset, err := strconv.Atoi(offsetStr)
+	offset, err := strconv.Atoi(offsetStr)2
 	if err != nil {
 		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{
 			Error: err.Error(),
