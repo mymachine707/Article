@@ -9,8 +9,11 @@ import (
 
 // AddArticle ...
 func (IM InMemory) AddArticle(id string, entity models.CreateArticleModul) error {
-
 	var article models.Article
+
+	if id == "" {
+		return errors.New("id must exist")
+	}
 
 	article.ID = id
 	article.Content = entity.Content
