@@ -13,13 +13,6 @@ func TestArticle(t *testing.T) {
 		Db: &inmemory.DB{},
 	}
 
-	type AddArticleModelTest struct {
-		name       string
-		id         string
-		data       models.CreateArticleModul
-		wantError  error
-		wantResult models.CreateArticleModul
-	}
 	expextedErrorAuthor := errors.New("author not found")
 	authorId := "b3546729-0695-4c63-ba3d-c3caa7310cde"
 	authorData := models.CreateAuthorModul{
@@ -39,7 +32,13 @@ func TestArticle(t *testing.T) {
 		t.Fatalf("unexpextedError: %v", err)
 	}
 
-	var TestAddArticle []AddArticleModelTest = []AddArticleModelTest{
+	var TestAddArticle = []struct {
+		name       string
+		id         string
+		data       models.CreateArticleModul
+		wantError  error
+		wantResult models.CreateArticleModul
+	}{
 		{
 			name: "success",
 			id:   "836e2951-8190-40b3-8d02-3a6a6b34f4a5",
