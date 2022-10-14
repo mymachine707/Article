@@ -15,15 +15,14 @@ func (IM InMemory) AddArticle(id string, entity models.CreateArticleModul) error
 		return errors.New("id must exist")
 	}
 
-	article.ID = id
-	article.Content = entity.Content
-
 	author, err := IM.GetAuthorByID(entity.AuthorID)
 
 	if err != nil {
 		return err
 	}
 
+	article.ID = id
+	article.Content = entity.Content
 	article.AuthorID = author.ID
 	article.CreatedAt = time.Now()
 
