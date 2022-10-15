@@ -369,6 +369,85 @@ func TestGetArticleList(t *testing.T) {
 	t.Log("Test has been finished!")
 	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
 }
+
+func TestUpdateArticle(t *testing.T) {
+	var err error
+	IM := inmemory.InMemory{
+		Db: &inmemory.DB{},
+	}
+
+	authorId := "b3546729-0695-4c63-ba3d-c3caa7310cde"
+	authorData := models.CreateAuthorModul{
+		Firstname: "John",
+		Lastname:  "Doe",
+	}
+	err = IM.AddAuthor(authorId, authorData)
+
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
+
+	contents := models.Content{
+		Title: "Lorem",
+		Body:  "Impsum",
+	}
+	// article list
+	//0
+	err = IM.AddArticle("249d62ba-b898-435b-b35e-ad7e505fc604", models.CreateArticleModul{
+		Content:  contents,
+		AuthorID: authorId,
+	})
+
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
+
+	var TestUpdateArticle = []struct {
+		name      string
+		article   models.UpdateArticleModul
+		wantError error
+	}{
+		{
+			name: "success",
+			article: models.UpdateArticleModul{
+				ID:      "249d62ba-b898-435b-b35e-ad7e505fc604",
+				Content: contents,
+			},
+			wantError: nil,
+		},
+		{
+			name: "fail: article not found",
+			article: models.UpdateArticleModul{
+				ID:      "25459a1c-0511-4f11-b5c0-9d2f8ccb7e8f",
+				Content: contents,
+			},
+			wantError: errors.New("article not found"),
+		},
+	}
+
+	for _, v := range TestUpdateArticle {
+		t.Run(v.name, func(t *testing.T) {
+
+			err := IM.UpdateArticle(v.article)
+
+			if v.wantError == nil {
+				if err != nil {
+					t.Errorf("unexpexted Error: %v", err)
+				}
+			} else {
+				if err != nil && v.wantError.Error() != err.Error() {
+					t.Errorf("We want error:%v, but got error: %v", v.wantError, err)
+				}
+				if err == nil {
+					t.Errorf("unexpexted error")
+				}
+			}
+		})
+	}
+	t.Log("Test has been finished!")
+	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
+}
+
 //
 //
 //
