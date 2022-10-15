@@ -113,6 +113,173 @@ func TestArticle(t *testing.T) {
 	t.Log("Test has been finished!")
 	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
 }
+func TestGetArticleById(t *testing.T) {
+	var err error
+	IM := inmemory.InMemory{
+		Db: &inmemory.DB{},
+	}
+
+	authorId := "b3546729-0695-4c63-ba3d-c3caa7310cde"
+	authorData := models.CreateAuthorModul{
+		Firstname: "John",
+		Lastname:  "Doe",
+	}
+	err = IM.AddAuthor(authorId, authorData)
+
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
+	contents := models.Content{
+		Title: "Lorem",
+		Body:  "Impsum",
+	}
+
+	err = IM.AddArticle("249d62ba-b898-435b-b35e-ad7e505fc604", models.CreateArticleModul{
+		Content:  contents,
+		AuthorID: authorId,
+	})
+
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
+
+	var TestGetAddArticleByID = []struct {
+		name       string
+		id         string
+		wantError  error
+		wantResult models.PackedArticleModel
+	}{
+		{
+			name:      "success",
+			id:        "249d62ba-b898-435b-b35e-ad7e505fc604",
+			wantError: nil,
+			wantResult: models.PackedArticleModel{
+				ID:      "249d62ba-b898-435b-b35e-ad7e505fc604",
+				Content: contents,
+				Author: models.Author{
+					ID:        authorId,
+					Firstname: "John",
+					Lastname:  "Doe",
+				},
+			},
+		},
+		{
+			name:      "fail: id must exist",
+			id:        "",
+			wantError: errors.New("id must exist"),
+			wantResult: models.PackedArticleModel{
+				ID:      "249d62ba-b898-435b-b35e-ad7e505fc604",
+				Content: contents,
+				Author: models.Author{
+					ID:        authorId,
+					Firstname: "John",
+					Lastname:  "Doe",
+				},
+			},
+		},
+		{
+			name:      "fail: article not found",
+			id:        "42056f47-9f1b-4a40-ad9c-0930f7faaf1f",
+			wantError: errors.New("article not found"),
+			wantResult: models.PackedArticleModel{
+				ID:      "249d62ba-b898-435b-b35e-ad7e505fc604",
+				Content: contents,
+				Author: models.Author{
+					ID:        authorId,
+					Firstname: "John",
+					Lastname:  "Doe",
+				},
+			},
+		},
+	}
+
+	for _, v := range TestGetAddArticleByID {
+		t.Run(v.name, func(t *testing.T) {
+
+			article, err := IM.GetArticleByID(v.id)
+
+			if v.wantError == nil {
+				if err != nil {
+					t.Errorf("unexpexted Error: %v", err)
+				}
+
+				if v.wantResult.Content != article.Content {
+					t.Errorf("We want result content: %v but got %v", v.wantResult.Content, article.Content)
+				}
+			} else {
+				if v.id != v.wantResult.ID {
+					if v.wantError.Error() != err.Error() {
+						t.Errorf("Method: %v, article not found", v.name)
+					}
+				}
+				if v.wantError.Error() != err.Error() {
+					t.Errorf("We want error: %v but got error: %v", v.wantError, err)
+				}
+				if err == nil {
+					t.Errorf("unexpexted error")
+				}
+
+			}
+		})
+	}
+
+	//
+
+	t.Log("Test has been finished!")
+	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
+}
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 //<---------------------------- my code ---------------------------------------------->
 /*

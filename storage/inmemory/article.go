@@ -34,6 +34,9 @@ func (IM InMemory) AddArticle(id string, entity models.CreateArticleModul) error
 // GetArticleByID ...
 func (IM InMemory) GetArticleByID(id string) (models.PackedArticleModel, error) {
 	var result models.PackedArticleModel
+	if id == "" {
+		return result, errors.New("id must exist")
+	}
 
 	for _, v := range IM.Db.InMemoryArticleData {
 		if v.ID == id && v.DeletedAt != nil {
