@@ -152,6 +152,24 @@ func TestGetArticleById(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpextedError: %v", err)
 	}
+	//!! author not found
+	// err = IM.AddAuthor("3e24f8e8-26ae-4200-a9c5-12538899fc6a", models.CreateAuthorModul{
+	// 	Firstname: "Jack",
+	// 	Lastname:  "Ma",
+	// })
+
+	// if err != nil {
+	// 	t.Fatalf("unexpextedError: %v", err)
+	// }
+	// err = IM.AddArticle("36c59968-3516-4d3c-b562-b9f4c3c145f4", models.CreateArticleModul{
+	// 	Content:  contents,
+	// 	AuthorID: "3e24f8e8-26ae-4200-a9c5-12538899fc6a",
+	// })
+
+	// if err != nil {
+	// 	t.Fatalf("unexpextedError: %v", err)
+	// }
+
 	// deleted tekshirish uchun
 	err = IM.AddArticle("de36b75b-d496-40fa-9d7c-28183930b3a6", models.CreateArticleModul{
 		Content: models.Content{
@@ -241,7 +259,6 @@ func TestGetArticleById(t *testing.T) {
 					t.Errorf("We want result content: %v but got %v", v.wantResult.Content, article.Content)
 				}
 			} else {
-
 				for _, s := range IM.Db.InMemoryArticleData {
 					if s.ID == v.id && s.DeletedAt != nil {
 						if err.Error() != v.wantError.Error() {
@@ -254,9 +271,10 @@ func TestGetArticleById(t *testing.T) {
 						t.Errorf("Method: %v, article not found", v.name)
 					}
 				}
-				if v.wantError.Error() != err.Error() {
+				if err != nil && v.wantError.Error() != err.Error() {
 					t.Errorf("We want error: %v but got error: %v", v.wantError, err)
 				}
+
 				if err == nil {
 					t.Errorf("unexpexted error")
 				}
@@ -265,7 +283,51 @@ func TestGetArticleById(t *testing.T) {
 		})
 	}
 
-	//
+	/*
+		{
+					name:      "fail author not found",
+					id:        "36c59968-3516-4d3c-b562-b9f4c3c145f4",
+					wantError: errors.New("author not found"),
+					wantResult: models.PackedArticleModel{
+						ID:      "36c59968-3516-4d3c-b562-b9f4c3c145f4",
+						Content: contents,
+						Author: models.Author{
+							ID:        "3e24f8e8-26ae-4200-a9c5-12538899fc6a",
+							Firstname: "li",
+							Lastname:  "Doe",
+						},
+					},
+				},
+	*/
+
+	// err = IM.AddAuthor("3e24f8e8-26ae-4200-a9c5-12538899fc6a", models.CreateAuthorModul{
+	// 	Firstname: "Jack",
+	// 	Lastname:  "Ma",
+	// })
+
+	// if err != nil {
+	// 	t.Fatalf("unexpextedError: %v", err)
+	// }
+
+	// err = IM.AddArticle("36c59968-3516-4d3c-b562-b9f4c3c145f4", models.CreateArticleModul{
+	// 	Content:  contents,
+	// 	AuthorID: "3e24f8e8-26ae-4200-a9c5-12538899fc6a",
+	// })
+
+	// if err != nil {
+	// 	t.Fatalf("unexpextedError: %v", err)
+	// }
+
+	// err = IM.DeleteAuthor("3e24f8e8-26ae-4200-a9c5-12538899fc6a")
+	// if err != nil {
+	// 	t.Errorf("We want error: author not found but got error: %v", err)
+	// }
+	// article, err := IM.GetArticleByID("36c59968-3516-4d3c-b562-b9f4c3c145f4")
+
+	// if err != nil && article.Author.ID == "" {
+	// 	t.Errorf("author not found err%v", err)
+	// }
+	// //
 
 	t.Log("<----------------- Article test finished ----------------->")
 	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out

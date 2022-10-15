@@ -241,7 +241,25 @@ func TestGetAuthorList(t *testing.T) {
 		t.Errorf("Unexpexted error: %v", err)
 	}
 
-	err = IM.AddAuthor("121ec437-9a7b-482a-adf4-9f73f21bbbe4", models.CreateAuthorModul{
+	err = IM.AddAuthor("121ec437-9a7b-482a-asf4-9f73f21bbbe4", models.CreateAuthorModul{
+		Firstname: "Mike",
+		Lastname:  "Tayson",
+	})
+
+	if err != nil {
+		t.Errorf("Unexpexted error: %v", err)
+	}
+
+	err = IM.AddAuthor("121ec437-9a7b-482a-adf4-9f73f21bbbs4", models.CreateAuthorModul{
+		Firstname: "Mike",
+		Lastname:  "Tayson",
+	})
+
+	if err != nil {
+		t.Errorf("Unexpexted error: %v", err)
+	}
+
+	err = IM.AddAuthor("121ec437-9a7b-482a-adf4-9f7sf21bbbe4", models.CreateAuthorModul{
 		Firstname: "Mike",
 		Lastname:  "Tayson",
 	})
@@ -272,7 +290,7 @@ func TestGetAuthorList(t *testing.T) {
 			name:   "success",
 			offset: 1,
 			limit:  2,
-			search: "Lorem",
+			search: "",
 			wantResult: []models.Author{
 				{
 					ID:        "121ec437-9a7b-482a-adf4-9f73f21bbbe4",
@@ -296,7 +314,7 @@ func TestGetAuthorList(t *testing.T) {
 
 	for _, v := range TestGetAuthorList {
 		t.Run(v.name, func(t *testing.T) {
-			authorList, err := IM.GetArticleList(v.offset, v.limit, v.search)
+			authorList, err := IM.GetAuthorList(v.offset, v.limit, v.search)
 			if v.wantError == nil {
 				if err != nil {
 					t.Errorf("Unexpexted error^ %v", err)
@@ -322,3 +340,153 @@ func TestGetAuthorList(t *testing.T) {
 	t.Log("<----------------- Auhtor test finished ----------------->")
 	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
 }
+
+func TestDeletedAuthor(t *testing.T) {
+	var err error
+
+	IM := inmemory.InMemory{
+		Db: &inmemory.DB{},
+	}
+
+	err = IM.AddAuthor("c3bc996a-e2a1-4143-85da-7c4fc378dca5", models.CreateAuthorModul{
+		Firstname: "John",
+		Lastname:  "Doe",
+	})
+
+	if err != nil {
+		t.Errorf("Unexpexted error: %v", err)
+	}
+
+	err = IM.AddAuthor("121ec437-9a7b-482a-asf4-9f73f21bbbe4", models.CreateAuthorModul{
+		Firstname: "Mike",
+		Lastname:  "Tayson",
+	})
+
+	if err != nil {
+		t.Errorf("Unexpexted error: %v", err)
+	}
+
+	err = IM.DeleteAuthor("c3bc996a-e2a1-4143-85da-7c4fc378dca5")
+
+	if err != nil {
+		t.Errorf("unexpexted err: %v", err)
+	}
+
+	var TestDeletedAuthor = []struct {
+		name        string
+		id          string
+		wantedError error
+	}{
+		{
+			name:        "success",
+			id:          "121ec437-9a7b-482a-asf4-9f73f21bbbe4",
+			wantedError: nil,
+		},
+		{
+			name:        "fail: author already deleted",
+			id:          "c3bc996a-e2a1-4143-85da-7c4fc378dca5",
+			wantedError: errors.New("author already deleted"),
+		},
+		{
+			name:        "fail: Cannot delete article becouse Author not found",
+			id:          "e14b1b87-8876-4da1-9425-110da80f2df0",
+			wantedError: errors.New("Cannot delete article becouse Author not found"),
+		},
+	}
+
+	for _, v := range TestDeletedAuthor {
+		t.Run(v.name, func(t *testing.T) {
+			err = IM.DeleteAuthor(v.id)
+			if v.wantedError == nil {
+				if err != nil {
+					t.Errorf("Unexpexted error: %v", err)
+				}
+			} else {
+				if err != nil && v.wantedError.Error() != err.Error() {
+					t.Errorf("We wanted err: %v, but got err: %v", v.wantedError, err)
+				}
+			}
+		})
+
+	}
+
+	t.Log("<----------------- Auhtor test finished ----------------->")
+	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
+}
+
+// func TestRemoveDelAuthor(t testing.T) {
+// 	var err error
+// 	IM := inmemory.InMemory{
+// 		Db: &inmemory.DB{},
+// 	}
+
+// 	//func (IM InMemory) removeAuthorDelete(slice []models.Author, s int) []models.Author
+// 	var TestRemoveDelete = []struct {
+// 		name       string
+// 		slice      []models.Author
+// 		index      int
+// 		wantResult []models.Author
+// 		wantError  error
+// 	}{
+// 		{
+// 			name: "success",
+// 			slice: []models.Author{
+// 				{
+// 					ID:        "1",
+// 					Firstname: "John",
+// 					Lastname:  "Doe",
+// 				},
+// 				{
+// 					ID:        "2",
+// 					Firstname: "Mikel",
+// 					Lastname:  "Jackson",
+// 				},
+// 				{
+// 					ID:        "3",
+// 					Firstname: "Donald",
+// 					Lastname:  "tramp",
+// 				},
+// 				{
+// 					ID:        "4",
+// 					Firstname: "Jenifer",
+// 					Lastname:  "Lopez",
+// 				},
+// 				{
+// 					ID:        "5",
+// 					Firstname: "Nike",
+// 					Lastname:  "Mil",
+// 				},
+// 			},
+// 			index: 2,
+// 			wantResult: []models.Author{
+// 				{
+// 					ID:        "1",
+// 					Firstname: "John",
+// 					Lastname:  "Doe",
+// 				},
+// 				{
+// 					ID:        "3",
+// 					Firstname: "Donald",
+// 					Lastname:  "tramp",
+// 				},
+// 				{
+// 					ID:        "4",
+// 					Firstname: "Jenifer",
+// 					Lastname:  "Lopez",
+// 				},
+// 				{
+// 					ID:        "5",
+// 					Firstname: "Nike",
+// 					Lastname:  "Mil",
+// 				},
+// 			},
+// 			wantError: nil,
+// 		},
+// 	}
+
+// 	for _, v := range TestRemoveDelete {
+// 		t.Run(v.name, func(t *testing.T) {
+// 			IM.removeAuthorDelete(v.slice, v.index)
+// 		})
+// 	}
+// }
