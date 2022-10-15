@@ -448,6 +448,110 @@ func TestUpdateArticle(t *testing.T) {
 	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
 }
 
+func TestDeleteArticle(t *testing.T) {
+	var err error
+	IM := inmemory.InMemory{
+		Db: &inmemory.DB{},
+	}
+
+	authorId := "b3546729-0695-4c63-ba3d-c3caa7310cde"
+	authorData := models.CreateAuthorModul{
+		Firstname: "John",
+		Lastname:  "Doe",
+	}
+	err = IM.AddAuthor(authorId, authorData)
+
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
+
+	err = IM.AddArticle("a6ed6b07-9239-4cd5-9c24-cbb6b596d438", models.CreateArticleModul{
+		Content: models.Content{
+			Title: "deleted uchun",
+			Body:  "deleted uchun",
+		},
+		AuthorID: authorId,
+	})
+
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
+
+	// deleted tekshirish uchun
+	err = IM.AddArticle("de36b75b-d496-40fa-9d7c-28183930b3a6", models.CreateArticleModul{
+		Content: models.Content{
+			Title: "deleted uchun",
+			Body:  "deleted uchun",
+		},
+		AuthorID: authorId,
+	})
+
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
+
+	err = IM.DeleteArticle("de36b75b-d496-40fa-9d7c-28183930b3a6")
+
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
+
+	var TestDeleteArticle = []struct {
+		name      string
+		id        string
+		wantError error
+	}{
+		{
+			name:      "success",
+			id:        "a6ed6b07-9239-4cd5-9c24-cbb6b596d438",
+			wantError: nil,
+		},
+		{
+			name:      "fail: article already deleted",
+			id:        "a6ed6b07-9239-4cd5-9c24-cbb6b596d438",
+			wantError: errors.New("article already deleted"),
+		},
+		{
+			name:      "fail: article not found",
+			id:        "938edc67-df1d-465c-bb25-0536a66239be",
+			wantError: errors.New("Cannot delete article becouse Article not found"),
+		},
+	}
+
+	for _, v := range TestDeleteArticle {
+		t.Run(v.name, func(t *testing.T) {
+
+			err := IM.DeleteArticle(v.id)
+
+			if v.wantError == nil {
+				if err != nil {
+					t.Errorf("unexpexted Error: %v", err)
+				}
+			} else {
+				for _, s := range IM.Db.InMemoryArticleData {
+					if s.ID == v.id && s.DeletedAt != nil {
+						if err.Error() != v.wantError.Error() {
+							t.Errorf("Unexpexted error: %v", err)
+						}
+					}
+				}
+				if err != nil && v.wantError.Error() != err.Error() {
+					t.Errorf("We want error: %v, but got: %v", v.wantError, err)
+				}
+				if err == nil {
+					t.Errorf("unexpexted error")
+				}
+
+			}
+		})
+	}
+
+	//
+
+	t.Log("Test has been finished!")
+	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
+}
+
 //
 //
 //

@@ -27,11 +27,11 @@ mymachine707/storage/inmemory/article.go:99.2,99.40 1 1
 mymachine707/storage/inmemory/article.go:87.46,88.47 1 1
 mymachine707/storage/inmemory/article.go:88.47,97.4 5 1
 mymachine707/storage/inmemory/article.go:103.54,105.46 1 1
-mymachine707/storage/inmemory/article.go:120.2,120.70 1 0
+mymachine707/storage/inmemory/article.go:120.2,120.70 1 1
 mymachine707/storage/inmemory/article.go:105.46,106.20 1 1
 mymachine707/storage/inmemory/article.go:106.20,107.26 1 1
 mymachine707/storage/inmemory/article.go:114.4,117.14 4 1
-mymachine707/storage/inmemory/article.go:107.26,109.5 1 0
+mymachine707/storage/inmemory/article.go:107.26,109.5 1 1
 mymachine707/storage/inmemory/article.go:123.75,125.2 1 0
 mymachine707/storage/inmemory/author.go:11.80,23.2 7 1
 mymachine707/storage/inmemory/author.go:26.68,29.45 2 1
