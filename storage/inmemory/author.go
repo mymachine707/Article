@@ -9,8 +9,17 @@ import (
 
 // AddAuthor ...
 func (IM InMemory) AddAuthor(id string, entity models.CreateAuthorModul) error {
-
 	var author models.Author
+
+	if id == "" {
+		return errors.New("id must exist")
+	}
+	if entity.Firstname == "" {
+		return errors.New("Firstname must exist")
+	}
+	if entity.Lastname == "" {
+		return errors.New("Lastname must exist")
+	}
 
 	author.ID = id
 	author.Firstname = entity.Firstname

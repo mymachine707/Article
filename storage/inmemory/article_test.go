@@ -120,7 +120,7 @@ func TestArticle(t *testing.T) {
 
 	//
 
-	t.Log("Test has been finished!")
+	t.Log("<----------------- Article test finished ----------------->")
 	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
 }
 func TestGetArticleById(t *testing.T) {
@@ -267,7 +267,7 @@ func TestGetArticleById(t *testing.T) {
 
 	//
 
-	t.Log("Test has been finished!")
+	t.Log("<----------------- Article test finished ----------------->")
 	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
 }
 func TestGetArticleList(t *testing.T) {
@@ -366,7 +366,7 @@ func TestGetArticleList(t *testing.T) {
 			}
 		})
 	}
-	t.Log("Test has been finished!")
+	t.Log("<----------------- Article test finished ----------------->")
 	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
 }
 
@@ -444,7 +444,7 @@ func TestUpdateArticle(t *testing.T) {
 			}
 		})
 	}
-	t.Log("Test has been finished!")
+	t.Log("<----------------- Article test finished ----------------->")
 	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
 }
 
@@ -548,7 +548,7 @@ func TestDeleteArticle(t *testing.T) {
 
 	//
 
-	t.Log("Test has been finished!")
+	t.Log("<----------------- Article test finished ----------------->")
 	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
 }
 
