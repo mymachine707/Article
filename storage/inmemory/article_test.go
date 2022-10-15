@@ -61,6 +61,16 @@ func TestArticle(t *testing.T) {
 			wantError:  expextedErrorAuthor,
 			wantResult: models.CreateArticleModul{},
 		},
+		{
+			name: "fail: id must exist",
+			id:   "",
+			data: models.CreateArticleModul{
+				Content:  contents,
+				AuthorID: NotFoundAuthorId,
+			},
+			wantError:  errors.New("id must exist"),
+			wantResult: models.CreateArticleModul{},
+		},
 	}
 
 	for _, v := range TestAddArticle {
@@ -142,6 +152,24 @@ func TestGetArticleById(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpextedError: %v", err)
 	}
+	// deleted tekshirish uchun
+	err = IM.AddArticle("de36b75b-d496-40fa-9d7c-28183930b3a6", models.CreateArticleModul{
+		Content: models.Content{
+			Title: "deleted uchun",
+			Body:  "deleted uchun",
+		},
+		AuthorID: authorId,
+	})
+
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
+
+	err = IM.DeleteArticle("de36b75b-d496-40fa-9d7c-28183930b3a6")
+
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
 
 	var TestGetAddArticleByID = []struct {
 		name       string
@@ -191,6 +219,12 @@ func TestGetArticleById(t *testing.T) {
 				},
 			},
 		},
+		{
+			name:       "fail: article already deleted",
+			id:         "de36b75b-d496-40fa-9d7c-28183930b3a6",
+			wantError:  errors.New("article already deleted"),
+			wantResult: models.PackedArticleModel{},
+		},
 	}
 
 	for _, v := range TestGetAddArticleByID {
@@ -207,6 +241,14 @@ func TestGetArticleById(t *testing.T) {
 					t.Errorf("We want result content: %v but got %v", v.wantResult.Content, article.Content)
 				}
 			} else {
+
+				for _, s := range IM.Db.InMemoryArticleData {
+					if s.ID == v.id && s.DeletedAt != nil {
+						if err.Error() != v.wantError.Error() {
+							t.Errorf("Unexpexted error: %v", err)
+						}
+					}
+				}
 				if v.id != v.wantResult.ID {
 					if v.wantError.Error() != err.Error() {
 						t.Errorf("Method: %v, article not found", v.name)
@@ -228,7 +270,366 @@ func TestGetArticleById(t *testing.T) {
 	t.Log("Test has been finished!")
 	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
 }
+func TestGetArticleList(t *testing.T) {
+	var err error
+	IM := inmemory.InMemory{
+		Db: &inmemory.DB{},
+	}
 
+	authorId := "b3546729-0695-4c63-ba3d-c3caa7310cde"
+	authorData := models.CreateAuthorModul{
+		Firstname: "John",
+		Lastname:  "Doe",
+	}
+	err = IM.AddAuthor(authorId, authorData)
+
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
+
+	contents := models.Content{
+		Title: "Lorem",
+		Body:  "Impsum",
+	}
+	// article list
+	//0
+	err = IM.AddArticle("249d62ba-b898-435b-b35e-ad7e505fc604", models.CreateArticleModul{
+		Content:  contents,
+		AuthorID: authorId,
+	})
+
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
+	// 1
+	err = IM.AddArticle("249d62b1-b898-435b-b35e-ad7e505fc604", models.CreateArticleModul{
+		Content:  contents,
+		AuthorID: authorId,
+	})
+
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
+
+	var TestGetAddArticleList = []struct {
+		name       string
+		offset     int
+		limit      int
+		search     string
+		wantError  error
+		wantResult []models.Article
+	}{
+		{
+			name:      "success",
+			offset:    1,
+			limit:     1,
+			search:    "Lorem",
+			wantError: nil,
+			wantResult: []models.Article{
+				{
+					ID:        "249d62ba-b898-435b-b35e-ad7e505fc604",
+					Content:   contents,
+					AuthorID:  authorId,
+					DeletedAt: nil,
+				},
+				{
+					ID:        "249d62b1-b898-435b-b35e-ad7e505fc604",
+					Content:   contents,
+					AuthorID:  authorId,
+					DeletedAt: nil,
+				},
+			},
+		},
+	}
+
+	for _, v := range TestGetAddArticleList {
+		t.Run(v.name, func(t *testing.T) {
+
+			article, err := IM.GetArticleList(v.offset, v.limit, v.search)
+
+			if v.wantError == nil {
+				if err != nil {
+					t.Errorf("unexpexted Error: %v", err)
+				}
+			} else {
+
+				for _, s := range article {
+					if s.DeletedAt != nil {
+						t.Errorf("article already deleted")
+					}
+				}
+
+				if err == nil {
+					t.Errorf("unexpexted error")
+				}
+
+			}
+		})
+	}
+	t.Log("Test has been finished!")
+	// go test -coverprofile=coverage.out ./... ;    go tool cover -html=coverage.out
+}
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
