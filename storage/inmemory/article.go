@@ -120,6 +120,7 @@ func (IM InMemory) DeleteArticle(idStr string) error {
 	return errors.New("Cannot delete article becouse Article not found")
 }
 
+// hard delete uchun kod
 // func (IM InMemory) remove(slice []models.Article, s int) []models.Article {
 // 	return append(slice[:s], slice[s+1:]...)
 // }
