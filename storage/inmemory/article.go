@@ -40,12 +40,12 @@ func (IM InMemory) GetArticleByID(id string) (models.PackedArticleModel, error) 
 
 	for _, v := range IM.Db.InMemoryArticleData {
 		if v.ID == id && v.DeletedAt != nil {
-			return result, errors.New("article already deleted")
+			return result, errors.New("author already deleted")
 		}
 		if v.ID == id && v.DeletedAt == nil {
 			author, err := IM.GetAuthorByID(v.AuthorID)
 			if err != nil {
-				return result, err
+				return result, errors.New("author already deleted")
 			}
 			result.ID = v.ID
 			result.Author = author
@@ -120,6 +120,6 @@ func (IM InMemory) DeleteArticle(idStr string) error {
 	return errors.New("Cannot delete article becouse Article not found")
 }
 
-func (IM InMemory) remove(slice []models.Article, s int) []models.Article {
-	return append(slice[:s], slice[s+1:]...)
-}
+// func (IM InMemory) remove(slice []models.Article, s int) []models.Article {
+// 	return append(slice[:s], slice[s+1:]...)
+// }

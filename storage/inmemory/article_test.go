@@ -152,23 +152,29 @@ func TestGetArticleById(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpextedError: %v", err)
 	}
-	//!! author not found
-	// err = IM.AddAuthor("3e24f8e8-26ae-4200-a9c5-12538899fc6a", models.CreateAuthorModul{
-	// 	Firstname: "Jack",
-	// 	Lastname:  "Ma",
-	// })
+	//!! author author already deleted
+	err = IM.AddAuthor("3e24f8e8-26ae-4200-a9c5-12538899fc6a", models.CreateAuthorModul{
+		Firstname: "Jack",
+		Lastname:  "Ma",
+	})
 
-	// if err != nil {
-	// 	t.Fatalf("unexpextedError: %v", err)
-	// }
-	// err = IM.AddArticle("36c59968-3516-4d3c-b562-b9f4c3c145f4", models.CreateArticleModul{
-	// 	Content:  contents,
-	// 	AuthorID: "3e24f8e8-26ae-4200-a9c5-12538899fc6a",
-	// })
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
+	err = IM.AddArticle("36c59968-3516-4d3c-b562-b9f4c3c145f4", models.CreateArticleModul{
+		Content:  contents,
+		AuthorID: "3e24f8e8-26ae-4200-a9c5-12538899fc6a",
+	})
 
-	// if err != nil {
-	// 	t.Fatalf("unexpextedError: %v", err)
-	// }
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
+
+	err = IM.DeleteAuthor("3e24f8e8-26ae-4200-a9c5-12538899fc6a")
+
+	if err != nil {
+		t.Fatalf("unexpextedError: %v", err)
+	}
 
 	// deleted tekshirish uchun
 	err = IM.AddArticle("de36b75b-d496-40fa-9d7c-28183930b3a6", models.CreateArticleModul{
@@ -241,6 +247,12 @@ func TestGetArticleById(t *testing.T) {
 			name:       "fail: article already deleted",
 			id:         "de36b75b-d496-40fa-9d7c-28183930b3a6",
 			wantError:  errors.New("article already deleted"),
+			wantResult: models.PackedArticleModel{},
+		},
+		{
+			name:       "fail: author already deleted",
+			id:         "36c59968-3516-4d3c-b562-b9f4c3c145f4",
+			wantError:  errors.New("author already deleted"),
 			wantResult: models.PackedArticleModel{},
 		},
 	}

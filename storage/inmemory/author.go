@@ -107,6 +107,6 @@ func (IM InMemory) DeleteAuthor(idStr string) error {
 	return errors.New("Cannot delete article becouse Author not found")
 }
 
-func (IM InMemory) removeAuthorDelete(slice []models.Author, s int) []models.Author {
-	return append(slice[:s], slice[s+1:]...)
-}
+// func (IM InMemory) removeAuthorDelete(slice []models.Author, s int) []models.Author {
+// 	return append(slice[:s], slice[s+1:]...)
+// }
