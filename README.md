@@ -7,3 +7,5 @@ GetDeletedList qo'shish kere
 
 
 listlaga counter qo'shish kere
+
+windowsga ulandi
