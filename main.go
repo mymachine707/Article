@@ -11,7 +11,7 @@ import (
 	"mymachine707/handlars"
 	"mymachine707/models"
 	"mymachine707/storage"
-	"mymachine707/storage/inmemory"
+	"mymachine707/storage/postgres"
 )
 
 // @contact.name  API Support
@@ -26,15 +26,9 @@ func main() {
 	docs.SwaggerInfo.Description = "This is a sample server Petstore server."
 	docs.SwaggerInfo.Version = "2.0"
 
+	var err error
 	var stg storage.Interfaces
-	stg = inmemory.InMemory{
-		Db: &inmemory.DB{},
-	}
-
-	err := stg.AddAuthor("b3546729-0695-4c63-ba3d-c3caa7310cde", models.CreateAuthorModul{
-		Firstname: "Islombek--example main",
-		Lastname:  "Oripov--example main",
-	})
+	stg, err = postgres.InitDB("user=admin password=5197534iSloMBek@ dbname=article_db sslmode=disable")
 
 	if err != nil {
 		panic(err)
