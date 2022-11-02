@@ -5,104 +5,151 @@ import (
 	"mymachine707/models"
 )
 
+var err error
+
 // AddAuthor ...
 func (stg Postgres) AddAuthor(id string, entity models.CreateAuthorModul) error {
-	// var author models.Author
+	if id == "" {
+		return errors.New("id must exist")
+	}
 
-	// if id == "" {
-	// 	return errors.New("id must exist")
-	// }
-	// if entity.Firstname == "" {
-	// 	return errors.New("Firstname must exist")
-	// }
-	// if entity.Lastname == "" {
-	// 	return errors.New("Lastname must exist")
-	// }
+	_, err = stg.db.Exec(`INSERT INTO author (
+		id,
+		firstname,
+		lastname
+		) VALUES(
+		$1,
+		$2,
+		$3
+	)`,
+		id,
+		entity.Firstname,
+		entity.Lastname,
+	)
 
-	// author.ID = id
-	// author.Firstname = entity.Firstname
-	// author.Lastname = entity.Lastname
-	// author.CreatedAt = time.Now()
-
-	// IM.Db.InMemoryAuthorData = append(IM.Db.InMemoryAuthorData, author)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
 
 // GetAuthorByID ...
 func (stg Postgres) GetAuthorByID(id string) (models.Author, error) {
-	var result models.Author
+	var a models.Author
 
-	// for _, v := range IM.Db.InMemoryAuthorData {
-	// 	if v.ID == id && v.DeletedAt != nil {
-	// 		return result, errors.New("author already deleted")
-	// 	}
-	// 	if v.ID == id && v.DeletedAt == nil {
-	// 		result = v
-	// 		return result, nil
-	// 	}
-	// }
-	return result, errors.New("author not found")
+	if id == "" {
+		return a, errors.New("id must exist")
+	}
+
+	err := stg.db.QueryRow(`SELECT
+		au.id,
+		au.firstname,
+		au.lastname,
+		au.created_at,
+		au.updated_at,
+		au.deleted_at
+	FROM author AS au WHERE id=$1 AND deleted_at is null`, id).Scan(
+		&a.ID,
+		&a.Firstname,
+		&a.Lastname,
+		&a.CreatedAt,
+		&a.UpdatedAt,
+		&a.DeletedAt,
+	)
+
+	if err != nil {
+		return a, err
+	}
+
+	return a, nil
 }
 
 // GetAuthorList ...
-func (stg Postgres) GetAuthorList(offset, limit int, serach string) (resp []models.Author, err error) {
-	// off := 0
-	// c := 0
+func (stg Postgres) GetAuthorList(offset, limit int, search string) (resp []models.Author, err error) {
 
-	// for _, v := range IM.Db.InMemoryAuthorData {
-	// 	if v.DeletedAt == nil && (strings.Contains(v.Firstname, serach) || strings.Contains(v.Lastname, serach)) {
-	// 		if offset <= off {
-	// 			c++
-	// 			resp = append(resp, v)
-	// 		}
-	// 		if limit <= c {
-	// 			break
-	// 		}
-	// 		off++
-	// 	}
-	// }
-	return resp, err
+	rows, err := stg.db.Queryx(`
+	
+	Select * from author WHERE 
+
+		((firstname ILIKE '%' || $1 || '%') OR (lastname ILIKE '%' || $1 || '%'))
+		AND deleted_at is null 
+		LIMIT $2 
+		OFFSET $3`,
+		search, limit, offset)
+
+	if err != nil {
+		return resp, err
+	}
+
+	for rows.Next() {
+		var a models.Author
+
+		err = rows.Scan(
+			&a.ID,
+			&a.Firstname,
+			&a.Lastname,
+			&a.CreatedAt,
+			&a.UpdatedAt,
+			&a.DeletedAt,
+		)
+		if err != nil {
+			return resp, err
+		}
+
+		resp = append(resp, a)
+
+	}
+
+	return resp, nil
 }
 
 // UpdateAuthor ...
 func (stg Postgres) UpdateAuthor(author models.UpdateAuthorModul) error {
 
-	// for i, v := range IM.Db.InMemoryAuthorData {
-	// 	if v.ID == author.ID && v.DeletedAt == nil {
+	rows, err := stg.db.NamedExec(`Update author set firstname=:f, lastname=:l, updated_at=now() Where id=:id  and deleted_at is null`, map[string]interface{}{
+		"id": author.ID,
+		"f":  author.Firstname,
+		"l":  author.Lastname,
+	})
 
-	// 		v.Firstname = author.Firstname
-	// 		v.Lastname = author.Lastname
-	// 		t := time.Now()
-	// 		v.UpdatedAt = &t
+	if err != nil {
+		return err
+	}
 
-	// 		IM.Db.InMemoryAuthorData[i] = v
+	n, err := rows.RowsAffected()
 
-	// 		return nil
-	// 	}
-	// }
+	if err != nil {
+		return err
+	}
+
+	if n > 0 {
+		return nil
+	}
+
 	return errors.New("author not found")
 }
 
 // DeleteAuthor ...
 func (stg Postgres) DeleteAuthor(idStr string) error {
 
-	// for i, v := range IM.Db.InMemoryAuthorData {
-	// 	if v.ID == idStr {
-	// 		// hard delete uchun kod
-	// 		//IM.Db.InMemoryAuthorData = removeAuthorDelete(IM.Db.InMemoryAuthorData, i)
+	rows, err := stg.db.NamedExec(`UPDATE author SET firstname=:f, lastname=:l, deleted_at=now() Where id=$1 and deleted_at is null`, idStr)
 
-	// 		// soft delete uchun kod
-	// 		if v.DeletedAt != nil {
-	// 			return errors.New("author already deleted")
-	// 		}
-	// 		t := time.Now()
-	// 		v.DeletedAt = &t
-	// 		IM.Db.InMemoryAuthorData[i] = v
-	// 		return nil
-	// 	}
-	// }
-	return errors.New("Cannot delete article becouse Author not found")
+	if err != nil {
+		return err
+	}
+
+	n, err := rows.RowsAffected()
+
+	if err != nil {
+		return err
+	}
+
+	if n > 0 {
+		return nil
+	}
+
+	return errors.New("Cannot delete Author becouse Author not found")
 }
 
 // hard delete uchun kod

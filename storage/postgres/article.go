@@ -18,10 +18,15 @@ func (stg Postgres) AddArticle(id string, entity models.CreateArticleModul) erro
 	}
 
 	_, err = stg.db.Exec(`INSERT INTO article (
-	$1,
-	$2
-	$3,
-	#4
+		id,
+		title,
+		body,
+		author_id		
+		) VALUES (
+		$1,
+		$2,
+		$3,
+		$4
 )`,
 		id,
 		entity.Title,
@@ -36,12 +41,14 @@ func (stg Postgres) AddArticle(id string, entity models.CreateArticleModul) erro
 	return nil
 }
 
-// GetArticleByID ...
+// GetArticleByID ...  //  ????
 func (stg Postgres) GetArticleByID(id string) (models.PackedArticleModel, error) {
 	var a models.PackedArticleModel
+
 	if id == "" {
 		return a, errors.New("id must exist")
 	}
+
 	err := stg.db.QueryRow(`SELECT 
     ar.id,
     ar.title,
@@ -54,8 +61,7 @@ func (stg Postgres) GetArticleByID(id string) (models.PackedArticleModel, error)
     au.lastname,
     au.created_at,
     au.updated_at,
-    au.deleted_at
- FROM article AS ar JOIN author AS au ON ar.author_id = au.id WHERE ar.id = $1;`, id).Scan(
+    au.deleted_at FROM article AS ar JOIN author AS au ON ar.author_id = au.id WHERE ar.id = $1`, id).Scan(
 		&a.ID,
 		&a.Title,
 		&a.Body,
@@ -73,13 +79,18 @@ func (stg Postgres) GetArticleByID(id string) (models.PackedArticleModel, error)
 	if err != nil {
 		return a, err
 	}
+
 	return a, nil
 }
 
 // GetArticleList ...
 func (stg Postgres) GetArticleList(offset, limit int, search string) (resp []models.Article, err error) {
 
-	rows, err := stg.db.Queryx("SELECT * FROM article")
+	rows, err := stg.db.Queryx(`SELECT * FROM article WHERE 
+	((title ILIKE '%' || $1 || '%') OR (body ILIKE '%' || $1 || '%')) AND deleted_at is null
+	LIMIT $2
+	OFFSET $3
+	`, search, limit, offset)
 	if err != nil {
 		return resp, err
 	}
@@ -111,43 +122,47 @@ func (stg Postgres) GetArticleList(offset, limit int, search string) (resp []mod
 // UpdateArticle ...
 func (stg Postgres) UpdateArticle(article models.UpdateArticleModul) error {
 
-	// for i, v := range IM.Db.InMemoryArticleData {
-	// 	if v.ID == article.ID && v.DeletedAt == nil {
+	res, err := stg.db.NamedExec("UPDATE article SET title=:t, body=:b, updated_at=now() WHERE id=:id AND deleted_at is null", map[string]interface{}{
+		"id": article.ID,
+		"t":  article.Title,
+		"b":  article.Body,
+	})
 
-	// 		v.Content = article.Content
-	// 		t := time.Now()
-	// 		v.UpdatedAt = &t
+	if err != nil {
+		return err
+	}
 
-	// 		IM.Db.InMemoryArticleData[i] = v
+	n, err := res.RowsAffected()
 
-	// 		return nil
-	// 	}
-	// }
+	if err != nil {
+		return err
+	}
+
+	if n > 0 {
+		return nil
+	}
+
 	return errors.New("article not found")
 }
 
 // DeleteArticle ...
 func (stg Postgres) DeleteArticle(idStr string) error {
 
-	// for i, v := range IM.Db.InMemoryArticleData {
-	// 	if v.ID == idStr {
-	// 		if v.DeletedAt != nil {
-	// 			return errors.New("article already deleted")
-	// 		}
-	// 		// bu kod article hard delete qilish uchun :
-	// 		// IM.Db.InMemoryArticleData = remove(IM.Db.InMemoryArticleData, i)
+	res, err := stg.db.Exec("UPDATE article Set deleted_at=now() WHERE id=$1 AND deleted_at is null", idStr)
 
-	// 		// bu kod soft delete uchun:
-	// 		t := time.Now()
-	// 		v.DeletedAt = &t
-	// 		IM.Db.InMemoryArticleData[i] = v
-	// 		return nil
-	// 	}
-	// }
-	return errors.New("Cannot delete article becouse Article not found")
+	if err != nil {
+		return err
+	}
+
+	n, err := res.RowsAffected()
+
+	if err != nil {
+		return err
+	}
+
+	if n > 0 {
+		return nil
+	}
+
+	return errors.New("article not found")
 }
-
-// hard delete uchun kod
-// func (IM InMemory) remove(slice []models.Article, s int) []models.Article {
-// 	return append(slice[:s], slice[s+1:]...)
-// }

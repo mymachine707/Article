@@ -40,7 +40,6 @@ func (h *Handler) CreatAuthor(c *gin.Context) {
 		})
 		return
 	}
-
 	author, err := h.Stg.GetAuthorByID(id.String()) // maqsad tekshirish rostan  ham create bo'ldimi?
 
 	if err != nil {
