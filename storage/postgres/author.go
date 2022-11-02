@@ -133,7 +133,7 @@ func (stg Postgres) UpdateAuthor(author models.UpdateAuthorModul) error {
 // DeleteAuthor ...
 func (stg Postgres) DeleteAuthor(idStr string) error {
 
-	rows, err := stg.db.NamedExec(`UPDATE author SET firstname=:f, lastname=:l, deleted_at=now() Where id=$1 and deleted_at is null`, idStr)
+	rows, err := stg.db.Exec(`UPDATE author SET deleted_at=now() Where id=$1 and deleted_at is null`, idStr)
 
 	if err != nil {
 		return err
