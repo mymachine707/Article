@@ -2,7 +2,6 @@ package postgres
 
 import (
 	"github.com/jmoiron/sqlx"
-	
 )
 
 // Postgres ...
@@ -60,8 +59,9 @@ func InitDB(psqlConfig string) (*Postgres, error) {
 		"b":   "Body 3",
 		"aid": "b9401ecc-e7b7-4e83-b387-eb85072adcd9",
 	})
-	err = tx.Commit()
 
+	err = tx.Commit()
+	
 	if err != nil {
 		return nil, err
 	}
