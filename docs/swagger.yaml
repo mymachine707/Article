@@ -38,6 +38,9 @@ definitions:
         maxLength: 50
         minLength: 4
         type: string
+      middlename:
+        example: Stive
+        type: string
       updated_at:
         type: string
     required:
@@ -68,6 +71,9 @@ definitions:
         example: Does
         maxLength: 50
         minLength: 4
+        type: string
+      middlename:
+        example: Stive
         type: string
     required:
     - firstname
@@ -124,6 +130,9 @@ definitions:
         maxLength: 50
         minLength: 4
         type: string
+      middlename:
+        example: Stive
+        type: string
       updated_at:
         type: string
     required:
@@ -156,6 +165,9 @@ definitions:
         example: Does
         maxLength: 50
         minLength: 4
+        type: string
+      middlename:
+        example: Stive
         type: string
     required:
     - firstname

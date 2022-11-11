@@ -608,6 +608,10 @@ const docTemplate = `{
                     "minLength": 4,
                     "example": "Does--example"
                 },
+                "middlename": {
+                    "type": "string",
+                    "example": "Stive"
+                },
                 "updated_at": {
                     "type": "string"
                 }
@@ -650,6 +654,10 @@ const docTemplate = `{
                     "maxLength": 50,
                     "minLength": 4,
                     "example": "Does"
+                },
+                "middlename": {
+                    "type": "string",
+                    "example": "Stive"
                 }
             }
         },
@@ -730,6 +738,10 @@ const docTemplate = `{
                     "minLength": 4,
                     "example": "Does"
                 },
+                "middlename": {
+                    "type": "string",
+                    "example": "Stive"
+                },
                 "updated_at": {
                     "type": "string"
                 }
@@ -776,6 +788,10 @@ const docTemplate = `{
                     "maxLength": 50,
                     "minLength": 4,
                     "example": "Does"
+                },
+                "middlename": {
+                    "type": "string",
+                    "example": "Stive"
                 }
             }
         }
