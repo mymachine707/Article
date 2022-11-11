@@ -24,6 +24,7 @@ func (IM InMemory) AddAuthor(id string, entity models.CreateAuthorModul) error {
 	author.ID = id
 	author.Firstname = entity.Firstname
 	author.Lastname = entity.Lastname
+	author.Middlename = entity.Middlename
 	author.CreatedAt = time.Now()
 
 	IM.Db.InMemoryAuthorData = append(IM.Db.InMemoryAuthorData, author)
