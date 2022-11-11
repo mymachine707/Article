@@ -45,6 +45,8 @@ func (stg Postgres) AddArticle(id string, entity models.CreateArticleModul) erro
 func (stg Postgres) GetArticleByID(id string) (models.PackedArticleModel, error) {
 	var a models.PackedArticleModel
 
+	var tempMiddlename *string
+
 	if id == "" {
 		return a, errors.New("id must exist")
 	}
@@ -59,7 +61,7 @@ func (stg Postgres) GetArticleByID(id string) (models.PackedArticleModel, error)
     au.id,
     au.firstname,
     au.lastname,
-	au.middlename
+	au.middlename,
     au.created_at,
     au.updated_at,
     au.deleted_at FROM article AS ar JOIN author AS au ON ar.author_id = au.id WHERE ar.id = $1`, id).Scan(
@@ -72,11 +74,15 @@ func (stg Postgres) GetArticleByID(id string) (models.PackedArticleModel, error)
 		&a.Author.ID,
 		&a.Author.Firstname,
 		&a.Author.Lastname,
-		&a.Author.Middlename,
+		&tempMiddlename,
 		&a.Author.CreatedAt,
 		&a.Author.UpdatedAt,
 		&a.Author.DeletedAt,
 	)
+
+	if tempMiddlename != nil {
+		a.Author.Middlename = *tempMiddlename
+	}
 
 	if err != nil {
 		return a, err
