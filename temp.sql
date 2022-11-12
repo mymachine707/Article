@@ -13,3 +13,5 @@ SELECT
     au.deleted_at
  FROM article AS ar JOIN author AS au ON ar.author_id = au.id WHERE ar.id = 'cc9be5d9-aa7b-48a7-9bd5-737fd48f37f0';
 
+INSERT INTO author (middlename)
+VALUES ("sasd"+"adadad"+"adasdad");

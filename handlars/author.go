@@ -31,9 +31,9 @@ func (h *Handler) CreatAuthor(c *gin.Context) {
 	// validation should be here
 
 	// create new author
+
 	id := uuid.New()
 	err := h.Stg.AddAuthor(id.String(), body)
-
 	if err != nil {
 		c.JSON(http.StatusBadRequest, models.JSONErrorResponse{
 			Error: err.Error(),
@@ -41,14 +41,12 @@ func (h *Handler) CreatAuthor(c *gin.Context) {
 		return
 	}
 	author, err := h.Stg.GetAuthorByID(id.String()) // maqsad tekshirish rostan  ham create bo'ldimi?
-
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.JSONErrorResponse{
 			Error: err.Error(),
 		})
 		return
 	}
-
 	c.JSON(http.StatusCreated, models.JSONResult{
 		Message: "CreatAuthor",
 		Data:    author,

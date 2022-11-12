@@ -31,6 +31,8 @@ definitions:
         maxLength: 50
         minLength: 4
         type: string
+      fullname:
+        type: string
       id:
         type: string
       lastname:
@@ -123,6 +125,8 @@ definitions:
         maxLength: 50
         minLength: 4
         type: string
+      fullname:
+        type: string
       id:
         type: string
       lastname:
@@ -158,6 +162,8 @@ definitions:
         example: John
         maxLength: 50
         minLength: 4
+        type: string
+      fullname:
         type: string
       id:
         type: string

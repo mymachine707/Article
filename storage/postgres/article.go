@@ -11,6 +11,7 @@ func (stg Postgres) AddArticle(id string, entity models.CreateArticleModul) erro
 	if id == "" {
 		return errors.New("id must exist")
 	}
+
 	_, err := stg.GetAuthorByID(entity.AuthorID)
 
 	if err != nil {
@@ -62,6 +63,7 @@ func (stg Postgres) GetArticleByID(id string) (models.PackedArticleModel, error)
     au.firstname,
     au.lastname,
 	au.middlename,
+	au.fullname,
     au.created_at,
     au.updated_at,
     au.deleted_at FROM article AS ar JOIN author AS au ON ar.author_id = au.id WHERE ar.id = $1`, id).Scan(
@@ -75,6 +77,7 @@ func (stg Postgres) GetArticleByID(id string) (models.PackedArticleModel, error)
 		&a.Author.Firstname,
 		&a.Author.Lastname,
 		&tempMiddlename,
+		&a.Author.Fullname,
 		&a.Author.CreatedAt,
 		&a.Author.UpdatedAt,
 		&a.Author.DeletedAt,

@@ -12,22 +12,26 @@ func (stg Postgres) AddAuthor(id string, entity models.CreateAuthorModul) error 
 	if id == "" {
 		return errors.New("id must exist")
 	}
+	fname := entity.Firstname + " " + entity.Lastname + " " + entity.Middlename
 
 	_, err = stg.db.Exec(`INSERT INTO author (
 		id,
 		firstname,
 		lastname,
-		middlename
+		middlename,
+		fullname
 		) VALUES(
 		$1,
 		$2,
 		$3,
-		$4
+		$4,
+		$5
 	)`,
 		id,
 		entity.Firstname,
 		entity.Lastname,
 		entity.Middlename,
+		fname,
 	)
 
 	if err != nil {
@@ -50,6 +54,7 @@ func (stg Postgres) GetAuthorByID(id string) (models.Author, error) {
 		au.firstname,
 		au.lastname,
 		au.middlename,
+		au.fullname,
 		au.created_at,
 		au.updated_at,
 		au.deleted_at
@@ -58,6 +63,7 @@ func (stg Postgres) GetAuthorByID(id string) (models.Author, error) {
 		&a.Firstname,
 		&a.Lastname,
 		&a.Middlename,
+		&a.Fullname,
 		&a.CreatedAt,
 		&a.UpdatedAt,
 		&a.DeletedAt,
@@ -77,7 +83,7 @@ func (stg Postgres) GetAuthorList(offset, limit int, search string) (resp []mode
 	
 	Select * from author WHERE 
 
-		((firstname ILIKE '%' || $1 || '%') OR (lastname ILIKE '%' || $1 || '%') OR (middlename ILIKE '%' || $1 || '%'))
+		((firstname ILIKE '%' || $1 || '%') OR (lastname ILIKE '%' || $1 || '%') OR (middlename ILIKE '%' || $1 || '%') OR (fullname ILIKE '%' || $1 || '%'))
 		AND deleted_at is null 
 		LIMIT $2 
 		OFFSET $3`,
@@ -95,6 +101,7 @@ func (stg Postgres) GetAuthorList(offset, limit int, search string) (resp []mode
 			&a.Firstname,
 			&a.Lastname,
 			&a.Middlename,
+			&a.Fullname,
 			&a.CreatedAt,
 			&a.UpdatedAt,
 			&a.DeletedAt,
@@ -113,11 +120,12 @@ func (stg Postgres) GetAuthorList(offset, limit int, search string) (resp []mode
 // UpdateAuthor ...
 func (stg Postgres) UpdateAuthor(author models.UpdateAuthorModul) error {
 
-	rows, err := stg.db.NamedExec(`Update author set firstname=:f, lastname=:l, middlename=:m, updated_at=now() Where id=:id  and deleted_at is null`, map[string]interface{}{
+	rows, err := stg.db.NamedExec(`Update author set firstname=:f, lastname=:l, middlename=:m, fullname=:fn,updated_at=now() Where id=:id  and deleted_at is null`, map[string]interface{}{
 		"id": author.ID,
 		"f":  author.Firstname,
 		"l":  author.Lastname,
 		"m":  author.Middlename,
+		"fn": author.Fullname,
 	})
 
 	if err != nil {

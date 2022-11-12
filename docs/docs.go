@@ -599,6 +599,9 @@ const docTemplate = `{
                     "minLength": 4,
                     "example": "John--example"
                 },
+                "fullname": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -729,6 +732,9 @@ const docTemplate = `{
                     "minLength": 4,
                     "example": "John"
                 },
+                "fullname": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -779,6 +785,9 @@ const docTemplate = `{
                     "maxLength": 50,
                     "minLength": 4,
                     "example": "John"
+                },
+                "fullname": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "string"
