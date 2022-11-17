@@ -15,3 +15,6 @@ SELECT
 
 INSERT INTO author (middlename)
 VALUES ("sasd"+"adadad"+"adasdad");
+
+
+update author set fullname=?;  where customer = ?

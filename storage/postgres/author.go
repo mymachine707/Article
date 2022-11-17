@@ -106,6 +106,8 @@ func (stg Postgres) GetAuthorList(offset, limit int, search string) (resp []mode
 			&a.UpdatedAt,
 			&a.DeletedAt,
 		)
+
+		
 		if err != nil {
 			return resp, err
 		}
@@ -120,12 +122,14 @@ func (stg Postgres) GetAuthorList(offset, limit int, search string) (resp []mode
 // UpdateAuthor ...
 func (stg Postgres) UpdateAuthor(author models.UpdateAuthorModul) error {
 
+	fname := author.Firstname + " " + author.Lastname + " " + author.Middlename
+
 	rows, err := stg.db.NamedExec(`Update author set firstname=:f, lastname=:l, middlename=:m, fullname=:fn,updated_at=now() Where id=:id  and deleted_at is null`, map[string]interface{}{
 		"id": author.ID,
 		"f":  author.Firstname,
 		"l":  author.Lastname,
 		"m":  author.Middlename,
-		"fn": author.Fullname,
+		"fn": fname,
 	})
 
 	if err != nil {

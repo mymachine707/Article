@@ -39,5 +39,4 @@ type UpdateAuthorModul struct {
 	Firstname  string `json:"firstname" binding:"required" minLength:"4" maxLength:"50" example:"John"`
 	Lastname   string `json:"lastname" binding:"required" minLength:"4" maxLength:"50" example:"Does"`
 	Middlename string `json:"middlename" example:"Stive"`
-	Fullname   string
 }

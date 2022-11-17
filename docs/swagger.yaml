@@ -163,8 +163,6 @@ definitions:
         maxLength: 50
         minLength: 4
         type: string
-      fullname:
-        type: string
       id:
         type: string
       lastname:

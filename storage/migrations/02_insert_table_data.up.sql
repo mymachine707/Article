@@ -10,3 +10,5 @@ BEGIN;
    INSERT INTO article (id, title, body, author_id) VALUES ('80f20849-b8a6-4c4e-b589-c9511b4145c4', 'Lorem 3', 'Body 3', 'b9401ecc-e7b7-4e83-b387-eb85072adcd9') ON CONFLICT DO NOTHING;
 
 COMMIT;
+
+

@@ -786,9 +786,6 @@ const docTemplate = `{
                     "minLength": 4,
                     "example": "John"
                 },
-                "fullname": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "string"
                 },

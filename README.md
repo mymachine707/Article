@@ -15,4 +15,4 @@ migrate -path ./storage/migrations -database 'postgres://admin:5197534iSloMBek@@
 
 migrate create -ext sql -dir ./migrations/postgres -seq -digits 2 create_article_table
 
-migrate -path ./migrations/postgres -database ‘postgres://postgres:test1234@localhost:5432/bootcamp?sslmode=disable' up
+ jk0
