@@ -17,25 +17,25 @@ import (
 	_ "github.com/lib/pq"
 )
 
-// @contact.name  API Support
-// @contact.url   http://www.swagger.io/support
-// @contact.email support@swagger.io
-
 // @license.name Apache 2.0
-// @license.url  http://www.apache.org/licenses/LICENSE-2.0.html
-
 func main() {
 	cfg := config.Load()
 
-	psqlConfigString:= fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", cfg.PostgresUser, cfg.PostgresPassword, cfg.PostgresDatabase)
+	psqlConfigString := fmt.Sprintf(
+		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+		cfg.PostgresHost,
+		cfg.PostgresPort,
+		cfg.PostgresUser,
+		cfg.PostgresPassword,
+		cfg.PostgresDatabase,
+	)
 
 	fmt.Println("---->>")
 	fmt.Printf("%+v\n", cfg)
 	fmt.Println("---->>")
 
-	docs.SwaggerInfo.Title = "Swagger Example API"
-	docs.SwaggerInfo.Description = "This is a sample server Petstore server."
-	docs.SwaggerInfo.Version = "2.0"
+	docs.SwaggerInfo.Title = cfg.App
+	docs.SwaggerInfo.Version = cfg.AppVersion
 
 	var err error
 	var stg storage.Interfaces
@@ -45,7 +45,15 @@ func main() {
 		panic(err)
 	}
 
-	r := gin.Default()
+	if cfg.Environment != "development" {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
+	r := gin.New()
+
+	if cfg.Environment != "production" {
+		r.Use(gin.Logger(), gin.Recovery()) // Later they will be replaced by custom Logger and Recovery
+	}
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
@@ -74,5 +82,5 @@ func main() {
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	r.Run(":3000") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	r.Run(cfg.HTTPPort) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
