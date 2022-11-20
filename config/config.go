@@ -3,18 +3,17 @@ package config
 import (
 	"fmt"
 	"os"
+
 	"github.com/joho/godotenv"
 	"github.com/spf13/cast"
 )
 
 // Config ...
 type Config struct {
-	App         string
-	AppVersion  string
-	Environment string // development, staging, production
-
-	HTTPPort string
-
+	App              string
+	AppVersion       string
+	Environment      string // development, staging, production
+	HTTPPort         string
 	PostgresHost     string
 	PostgresPort     int
 	PostgresDatabase string

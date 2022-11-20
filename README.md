@@ -13,6 +13,6 @@ windowsga ulandi
 
 migrate -path ./storage/migrations -database 'postgres://admin:5197534iSloMBek@@127.0.0.1:5432/article_db?sslmode=disable' up
 
-migrate create -ext sql -dir ./migrations/postgres -seq -digits 2 create_article_table
+migrate create -ext sql -dir ./migrations/postgres -seq -digits 2 create_database_table
 
- jk0
+jk0
