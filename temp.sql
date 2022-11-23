@@ -18,3 +18,9 @@ VALUES ("sasd"+"adadad"+"adasdad");
 
 
 update author set fullname=?;  where customer = ?
+
+
+Select * from author WHERE ((firstname ILIKE '%' || 'a' || '%') OR (lastname ILIKE '%' || 'a' || '%') OR (middlename ILIKE '%' || 's' || '%') OR (fullname ILIKE '%' || 'a' || '%')) AND deleted_at is null ;
+
+
+SELECT au.id, au.firstname, au.lastname, au.middlename, au.fullname, au.created_at, au.updated_at, au.deleted_at FROM author AS au;

@@ -97,11 +97,17 @@ func (stg Postgres) GetArticleByID(id string) (models.PackedArticleModel, error)
 // GetArticleList ...
 func (stg Postgres) GetArticleList(offset, limit int, search string) (resp []models.Article, err error) {
 
-	rows, err := stg.db.Queryx(`SELECT * FROM article WHERE 
+	rows, err := stg.db.Queryx(`
+	
+	SELECT * FROM article WHERE 
+	
 	(title || ' ' || body ILIKE '%' || $1 || '%') AND deleted_at is null
 	LIMIT $2
 	OFFSET $3
+	
 	`, search, limit, offset)
+	
+	
 	if err != nil {
 		return resp, err
 	}

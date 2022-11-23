@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"errors"
+	"fmt"
 	"mymachine707/models"
 )
 
@@ -83,11 +84,12 @@ func (stg Postgres) GetAuthorList(offset, limit int, search string) (resp []mode
 	
 	Select * from author WHERE 
 
-		((firstname ILIKE '%' || $1 || '%') OR (lastname ILIKE '%' || $1 || '%') OR (middlename ILIKE '%' || $1 || '%') OR (fullname ILIKE '%' || $1 || '%'))
+		((firstname ILIKE '%' || $1 || '%') OR (lastname ILIKE '%' || $1 || '%') OR 
+		(middlename ILIKE '%' || $1 || '%') OR 
+		(fullname ILIKE '%' || $1 || '%'))
 		AND deleted_at is null 
 		LIMIT $2 
-		OFFSET $3`,
-		search, limit, offset)
+		OFFSET $3`, search, limit, offset)
 
 	if err != nil {
 		return resp, err
@@ -100,14 +102,13 @@ func (stg Postgres) GetAuthorList(offset, limit int, search string) (resp []mode
 			&a.ID,
 			&a.Firstname,
 			&a.Lastname,
-			&a.Middlename,
-			&a.Fullname,
 			&a.CreatedAt,
 			&a.UpdatedAt,
 			&a.DeletedAt,
+			&a.Middlename,
+			&a.Fullname,
 		)
-
-		
+		fmt.Println(a.UpdatedAt)
 		if err != nil {
 			return resp, err
 		}
