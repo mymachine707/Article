@@ -30,7 +30,7 @@ func main() {
 		cfg.PostgresDatabase,
 	)
 
-	fmt.Println("---->>")
+	fmt.Println("----->>")
 	fmt.Printf("%+v\n", cfg)
 	fmt.Println("---->>")
 
